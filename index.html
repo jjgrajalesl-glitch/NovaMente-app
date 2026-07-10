@@ -6,213 +6,136 @@
     <title>NOVAMENTE — Neuro-Productividad & Riqueza Integral</title>
     <style>
         :root {
-            --primary: #1A3644; /* Azul oscuro corporativo */
-            --accent: #2A7B88;  /* Turquesa de tu logo */
-            --bg: #FFFFFF;      /* Fondo blanco puro */
-            --text: #2C3E50;    /* Gris oscuro legible */
+            --bg-dark: #0A1118;     
+            --panel-bg: #121E2A;    
+            --accent-cyan: #2A7B88; 
+            --accent-gold: #D4AF37; 
+            --text-main: #F0F4F8;   
+            --text-muted: #8A99AD;  
+            --border-color: #1E3145;
         }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Roboto, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             margin: 0;
             padding: 20px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
             min-height: 100vh;
         }
+
         .container {
-            max-width: 480px;
+            max-width: 460px;
             width: 100%;
-            background: #FFFFFF;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(26, 54, 68, 0.08);
+            background: var(--panel-bg);
+            padding: 35px 25px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             text-align: center;
-            box-sizing: border-box;
         }
-        .logo-img {
-            max-width: 180px;
-            height: auto;
-            margin-bottom: 10px;
+
+        .brand-header { margin-bottom: 25px; }
+        
+        .logo-svg { width: 130px; height: auto; }
+
+        .brand-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #2A7B88 0%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 5px 0 0 0;
         }
-        .subtitle { 
-            color: #7F8C8D; 
-            font-size: 0.95rem; 
-            margin-top: 0;
-            margin-bottom: 25px; 
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
+
+        .subtitle { color: var(--text-muted); font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; }
+
         .streak-badge {
-            background: #E8F4F8;
-            color: var(--accent);
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 25px;
-            font-size: 0.9rem;
-            border: 1px solid #D1E8ED;
+            background: rgba(42, 123, 136, 0.1);
+            color: #49C5D6;
+            padding: 10px 22px;
+            border-radius: 50px;
+            border: 1px solid rgba(42, 123, 136, 0.25);
+            margin-bottom: 30px;
         }
+
         .game-box {
-            background: #F4F7F9;
+            background: rgba(10, 17, 24, 0.6);
             padding: 25px;
-            border-radius: 16px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            border-left: 5px solid var(--accent);
+            border-radius: 18px;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-cyan);
             text-align: left;
+            margin-bottom: 25px;
         }
+
         .btn-option {
             display: block;
             width: 100%;
-            background: #FFFFFF;
-            border: 2px solid #EAECEE;
-            padding: 14px;
-            margin: 12px 0;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--text);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            margin: 14px 0;
+            border-radius: 14px;
+            color: var(--text-main);
             cursor: pointer;
-            transition: all 0.2s ease;
             text-align: left;
+            transition: all 0.2s;
         }
-        .btn-option:hover { 
-            border-color: var(--accent); 
-            background: #F9FBFB;
-            transform: translateY(-1px);
-        }
-        .result-box { 
-            margin-top: 20px; 
-            padding: 20px; 
-            border-radius: 12px; 
-            display: none; 
-            text-align: left;
-            line-height: 1.5;
-        }
-        .paywall {
-            display: none;
-            margin-top: 30px;
-            padding: 25px;
-            border: 2px dashed var(--accent);
-            border-radius: 16px;
-            background: #F7FCFD;
-        }
-        .paywall h3 {
-            color: var(--primary);
-            margin-top: 0;
-        }
+
+        .btn-option:hover { border-color: var(--accent-cyan); }
+
+        .result-box { display: none; padding: 22px; border-radius: 14px; text-align: left; }
+
+        .paywall { display: none; margin-top: 35px; padding: 28px; border: 1px dashed rgba(212, 175, 55, 0.4); border-radius: 20px; }
+
+        .paywall h3 { color: var(--accent-gold); }
+
         .btn-pay {
-            display: inline-block;
-            background: var(--primary);
+            display: block;
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, #1A545E 100%);
             color: #FFFFFF;
-            padding: 14px 28px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 14px;
             text-decoration: none;
-            font-weight: bold;
-            margin-top: 15px;
-            transition: background 0.2s;
-            box-shadow: 0 4px 15px rgba(26, 54, 68, 0.2);
-        }
-        .btn-pay:hover {
-            background: #112530;
-        }
-        .btn-share {
-            display: inline-block;
-            background: #25D366;
-            color: white;
-            padding: 12px 22px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 15px;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+            font-weight: 700;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <!-- Contenedor del Logotipo Oficial -->
-    <img src="logo-novamente.png" alt="NOVAMENTE" class="logo-img">
-    <p class="subtitle">Neuro-Productividad & Riqueza Integral</p>
-    
-    <!-- Indicador de Hábitos / Racha Diaria -->
-    <div class="streak-badge" id="streak-display">🔥 Racha de enfoque: 0 días</div>
-
-    <!-- Sección del Reto Neuro-Financiero del Día -->
-    <div class="game-box" id="enunciado">
-        <strong>Reto de Patrones de Acción:</strong><br>
-        Un proyecto te ofrece ganar $1,000 USD fijos garantizados HOY, o un 50% de probabilidades de ganar $2,500 USD mañana. Tu cerebro primitivo busca la recompensa inmediata, pero ¿cuál opción es lógicamente más rentable a largo plazo?
+    <div class="brand-header">
+        <!-- SVG Logo Simplificado -->
+        <svg class="logo-svg" viewBox="0 0 400 250" xmlns="http://w3.org">
+            <path d="M120,180 C80,180 50,140 50,105 C50,65 90,45 130,45 C185,45 200,105 240,115 C280,125 320,100 340,75 C355,55 375,115 330,140 C280,170 245,125 210,120 C170,115 160,180 120,180 Z" fill="#2A7B88" opacity="0.85"/>
+        </svg>
+        <div class="brand-name">NOVAMENTE</div>
+        <p class="subtitle">Neuro-Productividad</p>
     </div>
-
+    <div class="streak-badge" id="streak-display">🔥 Racha: 0 días</div>
+    <div class="game-box">Reto de Acción: ¿Opción segura o probabílistica?</div>
     <div id="opciones">
-        <button class="btn-option" onclick="verificar('A')">A) Tomar los $1,000 fijos hoy (Asegurar ganancia)</button>
-        <button class="btn-option" onclick="verificar('B')">B) Tomar el 50% de probabilidad de $2,500 (Valor esperado mayor)</button>
+        <button class="btn-option" onclick="verificar('A')">A) Seguro</button>
+        <button class="btn-option" onclick="verificar('B')">B) Probabilidad</button>
     </div>
-
-    <!-- Cuadro de Respuesta Científica -->
     <div class="result-box" id="resultado"></div>
-
-    <!-- Muro de Pago (Micro-suscripción Global de $2.99) -->
     <div class="paywall" id="paywall">
-        <h3>🔒 Rutina Básica Completada</h3>
-        <p>Has roto el sesgo de inmediatez cerebral. Tu mente está lista para tomar mejores decisiones hoy.</p>
-        <p><strong>Desbloquea el gimnasio mental completo con 5 niveles avanzados diarios y herramientas imprimibles.</strong></p>
-        <!-- REEMPLAZA EL LINK DE ABAJO POR TU CHECKOUT REAL DE HOTMART -->
-        <a href="https://hotmart.com" class="btn-pay" target="_blank">Unirse al Club VIP ($2.99/mes) 🧠</a>
+        <h3>🔒 VIP</h3>
+        <a href="#" class="btn-pay">Unirse</a>
     </div>
 </div>
-
 <script>
-    // Gestión automatizada de rachas con almacenamiento local para escala global
-    let racha = localStorage.getItem('racha_novamente') ? parseInt(localStorage.getItem('racha_novamente')) : 0;
-    document.getElementById('streak-display').innerText = `🔥 Racha de enfoque: ${racha} días`;
-
-    function verificar(respuesta) {
-        const resultadoDiv = document.getElementById('resultado');
-        const paywallDiv = document.getElementById('paywall');
-        
-        // Deshabilitar opciones tras el clic
-        const botones = document.querySelectorAll('.btn-option');
-        botones.forEach(b => b.disabled = true);
-
-        if (respuesta === 'B') { // La opción B tiene un valor matemático esperado mayor ($1,250 USD)
-            racha += 1;
-            localStorage.setItem('racha_novamente', racha);
-            document.getElementById('streak-display').innerText = `🔥 Racha de enfoque: ${racha} días`;
-
-            resultadoDiv.style.display = "block";
-            resultadoDiv.style.backgroundColor = "#E8F8F5";
-            resultadoDiv.style.color = "#117A65";
-            resultadoDiv.innerHTML = `
-                <h3>¡Excelente análisis matemático! 📈</h3>
-                <p>La opción B tiene un Valor Esperado de $1,250 USD (2500 x 0.5), superando los $1,000 fijos. Romper el miedo primitivo a la incertidumbre multiplica tu rentabilidad financiera.</p>
-                <a href="#" id="whatsapp-link" class="btn-share" target="_blank">Compartir mi racha en WhatsApp 🚀</a>
-            `;
-            configurarBotonViral(racha);
-        } else {
-            resultadoDiv.style.display = "block";
-            resultadoDiv.style.backgroundColor = "#FDF2F2";
-            resultadoDiv.style.color = "#9B2C2C";
-            resultadoDiv.innerHTML = `
-                <h3>Análisis completado 🧠</h3>
-                <p>Elegiste la opción fija. Tu cerebro actuó bajo el "Sesgo de Aversión a la Pérdida". Matemáticamente, la opción B promedia $1,250 USD de rendimiento. Entrenar tu agilidad mental te ayudará a detectar estos saboteadores de dinero.</p>
-            `;
-        }
-
-        // Desplegar el Paywall de forma inmediata para inducir la suscripción por impulso
-        paywallDiv.style.display = "block";
-    }
-
-    function configurarBotonViral(dias) {
-        const texto = `☕ Hoy activé mi mente en NOVAMENTE. ¡Llevo una racha de ${dias} días seguidos reprogramando mis hábitos y mis finanzas! 🧠 ¿Puedes superar el reto lógico de hoy? Entrena gratis aquí: ${window.location.href}`;
-        document.getElementById('whatsapp-link').href = `https://whatsapp.com{encodeURIComponent(texto)}`;
+    // Lógica básica de racha
+    let racha = localStorage.getItem('racha_novamente') || 0;
+    document.getElementById('streak-display').innerText = `🔥 Racha: ${racha} días`;
+    function verificar(r) {
+        document.getElementById('resultado').style.display = "block";
+        document.getElementById('paywall').style.display = "block";
+        document.getElementById('resultado').innerText = r === 'B' ? "¡Excelente!" : "Intenta de nuevo.";
     }
 </script>
 </body>
