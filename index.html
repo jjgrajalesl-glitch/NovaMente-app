@@ -107,6 +107,7 @@
     </style>
 </head>
 <body>
+    <div id="google_translate_element" style="display:none;"></div>
 <div class="container">
     <div class="brand-header">
         <!-- SVG Logo Simplificado -->
@@ -138,5 +139,29 @@
         document.getElementById('resultado').innerText = r === 'B' ? "¡Excelente!" : "Intenta de nuevo.";
     }
 </script>
+    <script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'es',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+        }, 'google_translate_element');
+        
+        // Forzar al sistema a leer el idioma nativo del dispositivo del usuario
+        setTimeout(function() {
+            var usuarioIdioma = navigator.language || navigator.userLanguage;
+            var idiomaCorto = usuarioIdioma.substring(0, 2); // Ej: 'en', 'ja', 'de'
+            
+            if (idiomaCorto !== 'es') {
+                var selector = document.querySelector('.goog-te-combo');
+                if (selector) {
+                    selector.value = idiomaCorto;
+                    selector.dispatchEvent(new Event('change'));
+                }
+            }
+        }, 1000); // Espera 1 segundo a que cargue la página para traducir limpiamente
+    }
+</script>
+<script type="text/javascript" src="//://google.com"></script>
 </body>
 </html>
