@@ -1,25 +1,69 @@
 # NovaMente
 
-## Enfoque Cognitivo Conductual impulsado por Inteligencia Artificial
+## Sprint 08A — Foundation Layer
 
-NovaMente es una plataforma diseñada para entrenar habilidades cognitivas, mejorar la toma de decisiones y desarrollar hábitos de alto rendimiento mediante una experiencia gamificada impulsada por IA.
+Este Sprint construye la infraestructura base del proyecto NovaMente.
+
+No implementa funcionalidades de negocio.
+
+Su propósito es preparar la arquitectura de base de datos para los siguientes Sprint.
+
+---
+
+## Componentes
+
+- Schemas
+- Configuration Tables
+- Seed Data
+- Documentación
+- Checklist
+
+---
+
+## Orden de ejecución
+
+1. 001_initial_schema.sql
+
+2. 002_configuration.sql
+
+3. 001_languages.sql
+
+4. 002_countries.sql
+
+5. 003_currencies.sql
+
+6. 004_roles.sql
+
+7. 005_categories.sql
 
 ---
 
 ## Arquitectura
 
-- GitHub → Código fuente
-- Vercel → Despliegue
-- Supabase → Base de datos y autenticación
-- Make → Automatizaciones
-- OpenAI → Motor de inteligencia
-- Hotmart → Suscripciones
-- Hostinger → Dominio y correo
+GitHub
+
+↓
+
+Vercel
+
+↓
+
+Supabase
+
+↓
+
+OpenAI
+
+↓
+
+Make
+
+↓
+
+Hotmart
 
 ---
 
-## Estado
+Estado
 
-Versión Alpha
-
-En desarrollo.
+Foundation Layer
