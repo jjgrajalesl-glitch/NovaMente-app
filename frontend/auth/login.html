@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Iniciar Sesión | NovaMente</title>
+
+    <link rel="stylesheet" href="../css/auth.css">
+
+</head>
+
+<body>
+
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <img
+            src="../assets/logo.svg"
+            alt="NovaMente"
+            class="logo"
+        >
+
+        <h1>Bienvenido nuevamente</h1>
+
+        <p>
+
+            Inicia sesión y continúa entrenando tu mente.
+
+        </p>
+
+        <form id="loginForm">
+
+            <input
+
+                type="email"
+
+                id="email"
+
+                placeholder="Correo electrónico"
+
+                required
+
+            >
+
+            <input
+
+                type="password"
+
+                id="password"
+
+                placeholder="Contraseña"
+
+                required
+
+            >
+
+            <button type="submit">
+
+                Ingresar
+
+            </button>
+
+        </form>
+
+        <div class="links">
+
+            <a href="forgot-password.html">
+
+                ¿Olvidaste tu contraseña?
+
+            </a>
+
+        </div>
+
+        <hr>
+
+        <p>
+
+            ¿No tienes cuenta?
+
+        </p>
+
+        <a
+
+            class="secondary-button"
+
+            href="register.html"
+
+        >
+
+            Crear cuenta gratuita
+
+        </a>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+
+<script src="../js/auth.js"></script>
+
+<script>
+
+document
+
+.getElementById("loginForm")
+
+.addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    await login(
+
+        document.getElementById("email").value,
+
+        document.getElementById("password").value
+
+    );
+
+});
+
+</script>
+
+</body>
+
+</html>
