@@ -48,7 +48,7 @@ async function register(userData) {
 
 async function login(email, password) {
 
-    const { error } = await novaSupabase.auth.signInWithPassword({
+    const { error } = await window.novaSupabase.auth.signInWithPassword({
 
         email,
 
@@ -74,7 +74,7 @@ async function login(email, password) {
 
 async function forgotPassword(email) {
 
-    const { error } = await novaSupabase.auth.resetPasswordForEmail(email, {
+    const { error } = await window.novaSupabase.auth.resetPasswordForEmail(email, {
 
         redirectTo: window.location.origin +
 
@@ -100,7 +100,7 @@ async function forgotPassword(email) {
 
 async function logout() {
 
-    await novaSupabase.auth.signOut();
+    await window.novaSupabase.auth.signOut();
 
     window.location.href = "../auth/login.html";
 
