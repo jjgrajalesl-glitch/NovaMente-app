@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NovaMente Dashboard</title>
+
+<link rel="stylesheet" href="../css/dashboard.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+
+        NovaMente
+
+    </div>
+
+    <button id="logoutButton">
+
+        Cerrar sesión
+
+    </button>
+
+</header>
+
+<main>
+
+<section class="welcome">
+
+<h1 id="welcomeMessage">
+
+Bienvenido
+
+</h1>
+
+<p>
+
+Entrena tu mente todos los días.
+
+</p>
+
+</section>
+
+<section class="subscription">
+
+<h2>
+
+Plan actual
+
+</h2>
+
+<div id="subscriptionStatus">
+
+FREE
+
+</div>
+
+<button id="upgradeButton">
+
+Hazte Premium
+
+</button>
+
+</section>
+
+<section class="challenge">
+
+<h2>
+
+Reto del día
+
+</h2>
+
+<p>
+
+Pon a prueba tu capacidad cognitiva.
+
+</p>
+
+<button id="startChallenge">
+
+Comenzar reto
+
+</button>
+
+</section>
+
+<section class="progress">
+
+<h2>
+
+Tu progreso
+
+</h2>
+
+<div>
+
+Nivel
+
+<span id="level">
+
+1
+
+</span>
+
+</div>
+
+<div>
+
+XP
+
+<span id="xp">
+
+0
+
+</span>
+
+</div>
+
+<div>
+
+Racha
+
+<span id="streak">
+
+0
+
+</span>
+
+</div>
+
+</section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+
+<script src="../js/auth.js"></script>
+
+<script src="../js/dashboard.js"></script>
+
+</body>
+
+</html>
