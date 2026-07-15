@@ -5,13 +5,16 @@
 
 // ---------- REGISTRO ----------
 
-async function register(fullName, email, password) {
+async function register(userData) {
 
-    const { data, error } = await novaSupabase.auth.signUp({
+    const fullName =
+        userData.firstName + " " + userData.lastName;
 
-        email,
+    const { data, error } = await window.novaSupabase.auth.signUp({
 
-        password,
+        email: userData.email,
+
+        password: userData.password,
 
         options: {
 
