@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         data: { session }
 
-    } = await supabase.auth.getSession();
+    } = await novasupabase.auth.getSession();
 
     if (!session) {
 
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const user = session.user;
 
-    const { data: profile } = await supabase
+    const { data: profile } = await novasupabase
 
         .from("profiles")
 
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         .single();
 
-    const { data: subscription } = await supabase
+    const { data: subscription } = await novasupabase
 
         .schema("identity")
 
@@ -61,7 +61,7 @@ document
 
 .addEventListener("click", async () => {
 
-    await supabase.auth.signOut();
+    await novasupabase.auth.signOut();
 
     window.location.href="../auth/login.html";
 
