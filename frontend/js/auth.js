@@ -1,24 +1,23 @@
-/* ==========================================
-   NovaMente
-   Authentication Module
-   Sprint 10.2
-========================================== */
+// =========================================
+// NovaMente Authentication
+// Sprint 10
+// =========================================
 
-async function register(userData) {
+// ---------- REGISTRO ----------
+
+async function register(fullName, email, password) {
 
     const { data, error } = await supabase.auth.signUp({
 
-        email: userData.email,
+        email,
 
-        password: userData.password,
+        password,
 
         options: {
 
             data: {
 
-                first_name: userData.firstName,
-
-                last_name: userData.lastName
+                full_name: fullName
 
             }
 
@@ -30,19 +29,23 @@ async function register(userData) {
 
         alert(error.message);
 
-        return null;
+        return;
 
     }
 
-    return data;
+    alert("Revisa tu correo para confirmar tu cuenta.");
+
+    window.location.href = "login.html";
 
 }
 
 
 
+// ---------- LOGIN ----------
+
 async function login(email, password) {
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
 
         email,
 
@@ -54,7 +57,7 @@ async function login(email, password) {
 
         alert(error.message);
 
-        return null;
+        return;
 
     }
 
@@ -64,9 +67,17 @@ async function login(email, password) {
 
 
 
+// ---------- RECUPERAR CONTRASEÑA ----------
+
 async function forgotPassword(email) {
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+
+        redirectTo: window.location.origin +
+
+        "/frontend/auth/update-password.html"
+
+    });
 
     if (error) {
 
@@ -76,11 +87,13 @@ async function forgotPassword(email) {
 
     }
 
-    alert("Te enviamos un correo para recuperar tu contraseña.");
+    alert("Te enviamos un correo para restablecer tu contraseña.");
 
 }
 
 
+
+// ---------- CERRAR SESIÓN ----------
 
 async function logout() {
 
