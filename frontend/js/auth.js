@@ -7,7 +7,7 @@
 
 async function register(fullName, email, password) {
 
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await novasupabase.auth.signUp({
 
         email,
 
@@ -45,7 +45,7 @@ async function register(fullName, email, password) {
 
 async function login(email, password) {
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await novasupabase.auth.signInWithPassword({
 
         email,
 
@@ -71,7 +71,7 @@ async function login(email, password) {
 
 async function forgotPassword(email) {
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    const { error } = await novasupabase.auth.resetPasswordForEmail(email, {
 
         redirectTo: window.location.origin +
 
@@ -97,7 +97,7 @@ async function forgotPassword(email) {
 
 async function logout() {
 
-    await supabase.auth.signOut();
+    await novasupabase.auth.signOut();
 
     window.location.href = "../auth/login.html";
 
