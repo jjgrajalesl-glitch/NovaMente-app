@@ -3,31 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaMente · ¿Cuántos recuerdas?</title>
-<meta name="description" content="El reto diario de memoria. 1 minuto al día. Sin registro.">
-<meta property="og:title" content="NovaMente · ¿Cuántos recuerdas?">
-<meta property="og:description" content="El reto diario de memoria. 1 minuto al día. Sin registro.">
+<title>NovaMente · Reto diario</title>
+<meta name="description" content="Un reto diario para pensar mejor: memoria, lógica, atención y reflexión. 1 minuto. Sin registro.">
+<meta property="og:title" content="NovaMente · Reto diario">
+<meta property="og:description" content="Memoria, lógica, atención y reflexión. 1 minuto al día. Sin registro.">
+<meta property="og:image" content="assets/isotipo.png">
 <meta name="theme-color" content="#163B72">
+<link rel="icon" href="assets/favicon.png">
 <style>
+  /* Manrope desde tu propio dominio (sin enviar la IP del visitante a terceros). Si el archivo no está, usa la letra del sistema. */
+  @font-face{font-family:'Manrope';src:url('assets/fonts/manrope.ttf') format('truetype');font-weight:200 800;font-display:swap}
   :root{
     --azul:#163B72; --turquesa:#1BCFC9; --aqua:#63E7D8; --electrico:#4C7EFF;
     --violeta:#B37BFF; --grafito:#233548; --fondo:#F5F8FC; --blanco:#FFFFFF;
     --grad:linear-gradient(135deg,#1BCFC9 0%,#4C7EFF 55%,#B37BFF 100%);
+    --font:'Manrope',system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--fondo);color:var(--grafito);min-height:100vh;display:flex;justify-content:center}
-  .app{width:100%;max-width:440px;padding:18px 18px 28px;display:flex;flex-direction:column;min-height:100vh}
-  header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-  .logo{font-weight:800;font-size:1.25rem;color:var(--azul);display:flex;align-items:center;gap:8px}
-  .logo i{width:22px;height:22px;border-radius:50% 50% 50% 12%;background:var(--grad);display:inline-block}
+  body{margin:0;font-family:var(--font);color:var(--grafito);min-height:100vh;display:flex;justify-content:center;
+       background:radial-gradient(600px 400px at 0% 0%,rgba(27,207,201,.13),transparent 70%),radial-gradient(600px 420px at 100% 10%,rgba(179,123,255,.13),transparent 70%),var(--fondo)}
+  .app{width:100%;max-width:460px;padding:16px 18px 28px;display:flex;flex-direction:column;min-height:100vh}
+  header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+  .logo img{height:30px;width:auto}
+  .logo b{font-weight:800;font-size:1.25rem;color:var(--azul);letter-spacing:-.2px}
+  .der{display:flex;align-items:center;gap:8px}
+  .langs{display:flex;gap:2px;font-size:.75rem;font-weight:800}
+  .langs a{padding:4px 6px;border-radius:8px;color:#8A97AA;cursor:pointer;text-decoration:none}
+  .langs a.on{background:#EAF0FF;color:var(--azul)}
   .racha{background:var(--blanco);border:1px solid #E3E9F2;border-radius:99px;padding:6px 14px;font-weight:800;color:var(--azul)}
-  .card{background:var(--blanco);border:1px solid #E3E9F2;border-radius:22px;padding:24px 20px;box-shadow:0 10px 30px rgba(22,59,114,.07);margin-bottom:14px}
-  h1{font-size:1.7rem;line-height:1.15;margin:0 0 8px;color:var(--azul)}
-  h2{font-size:1.15rem;margin:0 0 8px;color:var(--azul)}
+  .card{background:var(--blanco);border:1px solid #E3E9F2;border-radius:24px;padding:24px 20px;box-shadow:0 12px 34px rgba(22,59,114,.08);margin-bottom:14px}
+  h1{font-size:1.65rem;line-height:1.15;margin:0 0 10px;color:var(--azul);font-weight:800}
+  h2{font-size:1.15rem;margin:0 0 8px;color:var(--azul);font-weight:800}
   p{margin:0 0 12px;line-height:1.5}
   .muted{color:#6B7A90;font-size:.92rem}
-  .tag{display:inline-block;font-size:.78rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--electrico);margin-bottom:10px}
-  .btn{display:block;width:100%;border:0;border-radius:16px;padding:17px;font:800 1.08rem system-ui,sans-serif;cursor:pointer;text-align:center;text-decoration:none}
+  .tag{display:inline-block;font-size:.76rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--electrico);margin-bottom:10px}
+  .chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:4px 0 16px}
+  .chip{font-size:.75rem;font-weight:700;padding:5px 10px;border-radius:99px;background:#EEF3FA;color:#6B7A90}
+  .chip.on{background:var(--grad);color:#fff}
+  .btn{display:block;width:100%;border:0;border-radius:16px;padding:17px;font:800 1.06rem var(--font);cursor:pointer;text-align:center;text-decoration:none}
   .btn-main{background:var(--grad);color:#fff;box-shadow:0 8px 20px rgba(76,126,255,.3)}
   .btn-wa{background:#25D366;color:#fff;margin-bottom:10px}
   .btn-light{background:#EEF3FA;color:var(--azul)}
@@ -38,28 +52,39 @@
   .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
   .op{font-size:2.1rem;aspect-ratio:1;border-radius:16px;border:2px solid #E3E9F2;background:var(--blanco);cursor:pointer}
   .op.sel{border-color:var(--electrico);background:#EAF0FF;transform:scale(.94)}
+  .prog{height:6px;background:#E3E9F2;border-radius:99px;overflow:hidden;margin:6px 0 18px}
+  .prog div{height:100%;background:var(--grad);transition:width .3s}
+  .pregunta{font-size:1.12rem;line-height:1.45;font-weight:700;color:var(--grafito);margin:4px 0 18px;min-height:3em}
+  .serie{font-size:2rem;font-weight:800;color:var(--azul);letter-spacing:1px;text-align:center}
+  .stroop{font-size:2.8rem;font-weight:800;letter-spacing:2px;text-align:center;padding:18px 0}
+  .opciones{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .opc{border:2px solid #E3E9F2;background:var(--blanco);border-radius:16px;padding:16px 10px;font:800 1.1rem var(--font);color:var(--azul);cursor:pointer}
+  .opc.bien{border-color:#2BB673;background:#E6F8EE}
+  .opc.mal{border-color:#E5484D;background:#FDECEC}
+  .opc:disabled{cursor:default}
   .score{font-size:3.4rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin:4px 0}
   .cuadros{font-size:1.6rem;letter-spacing:2px;margin:6px 0 12px}
   .revisa{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0 14px}
   .revisa span{font-size:1.7rem;padding:4px 6px;border-radius:12px}
   .ok{background:#E3FAF6}.no{background:#FDECEC}
-  input{width:100%;padding:15px;border-radius:14px;border:2px solid #E3E9F2;font:600 1rem system-ui,sans-serif;margin-bottom:10px}
+  .lista{list-style:none;padding:0;margin:0;text-align:left}
+  .lista li{padding:12px 0;border-top:1px solid #EEF2F7;font-size:.93rem;line-height:1.45}
+  .lista li:first-child{border-top:0}
+  .lista b{color:var(--azul)}
+  .piensa{border-left:4px solid var(--turquesa)}
+  input{width:100%;padding:15px;border-radius:14px;border:2px solid #E3E9F2;font:600 1rem var(--font);margin-bottom:10px}
   input:focus{outline:none;border-color:var(--turquesa)}
   .vip{border:2px dashed var(--violeta)}
   .center{text-align:center}
   .reloj{font-weight:800;font-size:1.3rem;color:var(--azul)}
   footer{margin-top:auto;padding-top:16px;text-align:center;font-size:.78rem;color:#8A97AA}
-  .der{display:flex;align-items:center;gap:8px}
-  .langs{display:flex;gap:2px;font-size:.75rem;font-weight:800}
-  .langs a{padding:4px 6px;border-radius:8px;color:#8A97AA;cursor:pointer;text-decoration:none}
-  .langs a.on{background:#EAF0FF;color:var(--azul)}
   [hidden]{display:none!important}
 </style>
 </head>
 <body>
 <main class="app">
   <header>
-    <div class="logo"><i></i>NovaMente</div>
+    <a class="logo" href="/"><img src="assets/isotipo.png" alt=""><b>NovaMente</b></a>
     <div class="der">
       <div class="langs" id="langs"><a data-l="es">ES</a><a data-l="pt">PT</a><a data-l="en">EN</a></div>
       <div class="racha" id="racha">🔥 0</div>
@@ -70,132 +95,208 @@
   <section id="v-inicio">
     <div class="card center">
       <div class="tag" id="numReto">Reto #1</div>
-      <h1 id="tH1">¿Cuántos recuerdas?</h1>
+      <div class="chips" id="chips"></div>
+      <h1 id="tH1"></h1>
       <p id="tIntro"></p>
       <p class="muted" id="tSub"></p>
-      <button class="btn btn-main" id="bEmpezar">▶ Empezar</button>
+      <button class="btn btn-main" id="bEmpezar">▶</button>
     </div>
   </section>
 
-  <!-- 2. MEMORIZAR -->
+  <!-- 2a. MEMORIA: memorizar -->
   <section id="v-memoria" hidden>
     <div class="card center">
-      <div class="tag" id="tMemo">Memoriza</div>
+      <div class="tag" id="tMemo"></div>
       <div class="memo" id="memo"></div>
       <div class="barra"><div id="barra"></div></div>
     </div>
   </section>
 
-  <!-- 3. ELEGIR -->
+  <!-- 2b. MEMORIA: elegir -->
   <section id="v-elegir" hidden>
     <div class="card center">
-      <div class="tag" id="tPick">¿Cuáles viste?</div>
+      <div class="tag" id="tPick"></div>
       <h2 id="cont">0/5</h2>
       <div class="grid" id="grid"></div>
-      <p class="muted" id="tHint">Toca los que recuerdas</p>
+      <p class="muted" id="tHint"></p>
     </div>
   </section>
 
-  <!-- 4. RESULTADO -->
+  <!-- 2c. LÓGICA / ATENCIÓN / REFLEXIÓN: preguntas -->
+  <section id="v-pregunta" hidden>
+    <div class="card">
+      <div class="tag" id="pTag"></div>
+      <div class="prog"><div id="pProg" style="width:0%"></div></div>
+      <div class="pregunta" id="pTexto"></div>
+      <div class="opciones" id="pOpc"></div>
+    </div>
+  </section>
+
+  <!-- 3. RESULTADO -->
   <section id="v-resultado" hidden>
     <div class="card center">
-      <div class="tag" id="rNum">Reto #1</div>
-      <div class="score" id="rScore">5/5</div>
+      <div class="tag" id="rNum"></div>
+      <div class="score" id="rScore"></div>
       <h2 id="rMsg"></h2>
       <div class="cuadros" id="rCuadros"></div>
-      <div class="revisa" id="rRevisa"></div>
       <p class="muted" id="rInfo"></p>
-      <a class="btn btn-wa" id="bWa" target="_blank" rel="noopener">Retar a un amigo por WhatsApp</a>
-      <button class="btn btn-light" id="bCopiar">Copiar resultado</button>
+      <a class="btn btn-wa" id="bWa" target="_blank" rel="noopener"></a>
+      <button class="btn btn-light" id="bCopiar"></button>
+    </div>
+
+    <div class="card piensa">
+      <h2 id="tPiensa"></h2>
+      <div id="rRevisa"></div>
+      <p class="muted" id="rExp" style="margin:10px 0 0"></p>
     </div>
 
     <div class="card" id="cEmail">
-      <h2 id="tEmailH">📩 ¿Te aviso mañana?</h2>
+      <h2 id="tEmailH"></h2>
       <p class="muted" id="tEmailP"></p>
-      <input type="email" id="email" placeholder="tu@correo.com" autocomplete="email" inputmode="email">
-      <button class="btn btn-main" id="bEmail">Avísame</button>
+      <input type="email" id="email" autocomplete="email" inputmode="email">
+      <button class="btn btn-main" id="bEmail"></button>
       <p class="muted" id="emailMsg"></p>
     </div>
 
     <div class="card vip" id="cVip">
-      <h2 id="tVipH">🔒 Miembro Fundador NovaMente</h2>
+      <h2 id="tVipH"></h2>
       <p class="muted" id="tVipP"></p>
-      <button class="btn btn-light" id="bVip">Quiero mi cupo de fundador</button>
+      <button class="btn btn-light" id="bVip"></button>
       <p class="muted" id="vipMsg"></p>
     </div>
 
     <div class="card center">
-      <p class="muted" id="tNext">Próximo reto en</p>
+      <p class="muted" id="tNext"></p>
       <div class="reloj" id="reloj">--:--:--</div>
     </div>
   </section>
 
-  <footer><span id="tFooter">Juego de entrenamiento y hábito. No es una prueba médica ni diagnóstica.</span><br><a href="/#legal" id="tLegal" style="color:#8A97AA">Términos · Privacidad</a></footer>
+  <footer><span id="tFooter"></span><br><a href="/#legal" id="tLegal" style="color:#8A97AA"></a></footer>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* =========================================================
-   CONFIGURACIÓN: SOLO CAMBIA ESTAS 3 LÍNEAS
+   CONFIGURACIÓN
    ========================================================= */
 const CONFIG = {
-  SUPABASE_URL: "https://vouoxlnggfbfivrfuwjz.supabase.co",       // ej: https://abcd1234.supabase.co
-  SUPABASE_KEY: "sb_publishable_yhkPdbQ5yISsoXLxctYTwQ_-Tu3_mWt",   // la clave publishable / anon (NUNCA la secret)
-  LANZAMIENTO: "2026-11-12"                         // día del Reto #1
+  SUPABASE_URL: "https://vouoxlnggfbfivrfuwjz.supabase.co",
+  SUPABASE_KEY: "sb_publishable_yhkPdbQ5yISsoXLxctYTwQ_-Tu3_mWt",   // clave pública (publishable): puede estar aquí
+  LANZAMIENTO: "2026-11-12"                                          // día del Reto #1
 };
 /* ========================================================= */
 
 const $ = id => document.getElementById(id);
 
 /* =========================================================
-   IDIOMAS: español, portugués, inglés (se detecta solo)
+   TEXTOS EN 3 IDIOMAS
    ========================================================= */
 const TXT = {
-  es: { doc:"NovaMente · ¿Cuántos recuerdas?", reto:"Reto", h1:"¿Cuántos recuerdas?",
-        intro:"Verás <b>{n}</b> objetos por unos segundos.<br>Después, tócalos de memoria.",
-        sub:"1 minuto · Sin registro · Un reto nuevo cada día", start:"▶ Empezar", memo:"Memoriza",
-        pick:"¿Cuáles viste?", hint:"Toca los que recuerdas", wa:"Retar a un amigo por WhatsApp",
-        copy:"Copiar resultado", copied:"✅ Copiado", copyPrompt:"Copia tu resultado:",
-        emailH:"📩 ¿Te aviso mañana?", emailP:"Cada mañana recibes tu reto. 1 clic y juegas. Te das de baja cuando quieras.",
-        ph:"tu@correo.com", emailBtn:"Avísame", emailBad:"Revisa tu correo, parece incompleto.", saving:"Guardando…",
-        emailOk:"✅ ¡Listo! Mañana temprano te llega tu reto.", err:"No se pudo guardar. Intenta de nuevo.",
-        vipH:"🔒 Miembro Fundador NovaMente", vipP:"Próximamente: más retos diarios, rutas de memoria y atención, y tu progreso semana a semana. Precio especial solo para los primeros 100 fundadores.",
-        vipBtn:"Quiero mi cupo de fundador", vipOk1:"✅ Cupo reservado. Te avisamos primero por correo.",
-        vipOk2:"✅ Cupo reservado. Déjanos tu correo arriba para avisarte primero.", vipDone:"✅ Tu cupo de fundador está reservado.",
-        next:"Próximo reto en", footer:"Juego de entrenamiento y hábito. No es una prueba médica ni diagnóstica.",
-        m100:"¡Memoria de acero! 🧠⚡", m60:"¡Muy bien! Mañana vas por el pleno.", mLow:"Buen intento. Mañana, revancha.",
-        time:"Tiempo", streak:"Racha", day:"día", days:"días", prot:"🛡️ Usaste tu protector de racha de la semana",
-        seven:"🎉 ¡7 días seguidos!", hook:"¿Me ganas?", in:"en", dec:",", legal:"Términos · Privacidad" },
-  pt: { doc:"NovaMente · Quantos você lembra?", reto:"Desafio", h1:"Quantos você lembra?",
-        intro:"Você verá <b>{n}</b> objetos por alguns segundos.<br>Depois, toque neles de memória.",
-        sub:"1 minuto · Sem cadastro · Um desafio novo por dia", start:"▶ Começar", memo:"Memorize",
-        pick:"Quais você viu?", hint:"Toque nos que você lembra", wa:"Desafiar um amigo no WhatsApp",
-        copy:"Copiar resultado", copied:"✅ Copiado", copyPrompt:"Copie seu resultado:",
-        emailH:"📩 Quer um aviso amanhã?", emailP:"Toda manhã você recebe seu desafio. 1 clique e você joga. Cancele quando quiser.",
-        ph:"voce@email.com", emailBtn:"Me avise", emailBad:"Confira seu e-mail, parece incompleto.", saving:"Salvando…",
-        emailOk:"✅ Pronto! Amanhã cedo chega seu desafio.", err:"Não foi possível salvar. Tente de novo.",
-        vipH:"🔒 Membro Fundador NovaMente", vipP:"Em breve: mais desafios diários, trilhas de memória e atenção, e seu progresso semana a semana. Preço especial só para os primeiros 100 fundadores.",
-        vipBtn:"Quero minha vaga de fundador", vipOk1:"✅ Vaga reservada. Avisaremos você primeiro por e-mail.",
-        vipOk2:"✅ Vaga reservada. Deixe seu e-mail acima para ser avisado primeiro.", vipDone:"✅ Sua vaga de fundador está reservada.",
-        next:"Próximo desafio em", footer:"Jogo de treino e hábito. Não é um teste médico nem diagnóstico.",
-        m100:"Memória de aço! 🧠⚡", m60:"Muito bem! Amanhã você gabarita.", mLow:"Boa tentativa. Amanhã tem revanche.",
-        time:"Tempo", streak:"Sequência", day:"dia", days:"dias", prot:"🛡️ Você usou seu protetor de sequência da semana",
-        seven:"🎉 7 dias seguidos!", hook:"Consegue me vencer?", in:"em", dec:",", legal:"Termos · Privacidade" },
-  en: { doc:"NovaMente · How many can you remember?", reto:"Challenge", h1:"How many can you remember?",
-        intro:"You'll see <b>{n}</b> objects for a few seconds.<br>Then tap them from memory.",
-        sub:"1 minute · No sign-up · A new challenge every day", start:"▶ Start", memo:"Memorize",
-        pick:"Which ones did you see?", hint:"Tap the ones you remember", wa:"Challenge a friend",
-        copy:"Copy result", copied:"✅ Copied", copyPrompt:"Copy your result:",
-        emailH:"📩 Want a reminder tomorrow?", emailP:"Get your challenge every morning. 1 click and you play. Unsubscribe anytime.",
-        ph:"you@email.com", emailBtn:"Remind me", emailBad:"Check your email, it looks incomplete.", saving:"Saving…",
-        emailOk:"✅ Done! Your challenge arrives tomorrow morning.", err:"Couldn't save. Please try again.",
-        vipH:"🔒 NovaMente Founding Member", vipP:"Coming soon: more daily challenges, memory and focus tracks, and your week-by-week progress. Special price for the first 100 founders only.",
-        vipBtn:"Save my founder spot", vipOk1:"✅ Spot saved. We'll email you first.",
-        vipOk2:"✅ Spot saved. Leave your email above so we can tell you first.", vipDone:"✅ Your founder spot is saved.",
-        next:"Next challenge in", footer:"A training and habit game. Not a medical or diagnostic test.",
-        m100:"Memory of steel! 🧠⚡", m60:"Great job! Go for a perfect score tomorrow.", mLow:"Nice try. Rematch tomorrow.",
-        time:"Time", streak:"Streak", day:"day", days:"days", prot:"🛡️ You used this week's streak shield",
-        seven:"🎉 7 days in a row!", hook:"Can you beat me?", in:"in", dec:".", legal:"Terms · Privacy" }
+ es:{ doc:"NovaMente · Reto diario", reto:"Reto", start:"▶ Empezar",
+  tipos:{memoria:"Memoria", logica:"Lógica", atencion:"Atención", reflexion:"Reflexión"},
+  h1:{memoria:"¿Cuántos recuerdas?", logica:"¿Qué número sigue?", atencion:"¿De qué color está escrita?", reflexion:"¿Piensas rápido o piensas bien?"},
+  intro:{memoria:"Verás <b>{n}</b> objetos por unos segundos.<br>Después, tócalos de memoria.",
+         logica:"<b>5 secuencias</b>. Encuentra el patrón y elige el número que continúa.",
+         atencion:"Verás <b>10 palabras</b> de colores. Toca el <b>color de la tinta</b>, no lo que dice la palabra.",
+         reflexion:"<b>3 preguntas trampa</b>. La primera idea suele fallar: frena, comprueba y responde."},
+  sub:"1 a 3 minutos · Sin registro · Un tipo de reto distinto cada día",
+  memo:"Memoriza", pick:"¿Cuáles viste?", hint:"Toca los que recuerdas", preg:"Pregunta {i} de {n}",
+  colores:["ROJO","AZUL","VERDE","AMARILLO"], colorBtn:["Rojo","Azul","Verde","Amarillo"],
+  lPreg:"¿Qué número sigue?",
+  rArit:"Suma {d} cada vez.", rGeo:"Multiplica por {r} cada vez.", rAlt:"Alterna: suma {x} y resta {y}.", rFib:"Cada número es la suma de los dos anteriores.", rCuad:"Son números al cuadrado: {n}×{n}, {n1}×{n1}…",
+  qBat:"Un cuaderno y un lápiz cuestan ${t} en total. El cuaderno cuesta ${d} más que el lápiz. ¿Cuánto cuesta el lápiz?",
+  eBat:"La respuesta rápida es ${p2}, pero entonces el cuaderno costaría ${dp2} y el total sería ${d4}. Si el lápiz cuesta ${p}, el cuaderno cuesta ${dp} y juntos suman ${t}.",
+  qLily:"Una mancha de algas duplica su tamaño cada día. Cubre todo el lago en {n} días. ¿En qué día cubría la mitad del lago?",
+  eLily:"Si se duplica cada día, el día antes de cubrirlo todo cubría justo la mitad: el día {n1}. La mitad del tiempo ({n2}) es la trampa.",
+  qMaq:"{k} máquinas hacen {k} piezas en {k} minutos. ¿Cuántos minutos tardan {m} máquinas en hacer {m} piezas?",
+  eMaq:"Cada máquina hace 1 pieza en {k} minutos. {m} máquinas trabajando a la vez hacen {m} piezas en los mismos {k} minutos.",
+  oDia:"Día {x}", oMin:"{x} min",
+  piensa:"💡 Así se piensa", correcta:"Correcta", tuya:"Tu respuesta",
+  expMem:"Truco para mañana: inventa una mini historia que una los objetos en orden (la 🍩 cae sobre el 🎁…). A muchas personas les funciona mejor una historia que una lista.",
+  expLog:"Método: mira primero la diferencia entre números seguidos. Si no es siempre igual, prueba si multiplica, si alterna o si suma los dos anteriores.",
+  expAte:"Leer es casi automático, por eso la palabra empuja la respuesta equivocada. Elegir el color de la tinta obliga a frenar ese impulso: es concentración en acción (efecto Stroop).",
+  expRef:"Estas preguntas están hechas para que la primera idea falle. El hábito que se entrena es frenar, comprobar y después responder.",
+  aciertos:"Aciertos", wa:"Retar a un amigo por WhatsApp", copy:"Copiar resultado", copied:"✅ Copiado", copyPrompt:"Copia tu resultado:",
+  emailH:"📩 ¿Te aviso mañana?", emailP:"Cada mañana recibes tu reto. 1 clic y juegas. Te das de baja cuando quieras.",
+  ph:"tu@correo.com", emailBtn:"Avísame", emailBad:"Revisa tu correo, parece incompleto.", saving:"Guardando…",
+  emailOk:"✅ ¡Listo! Mañana temprano te llega tu reto.", err:"No se pudo guardar. Intenta de nuevo.",
+  vipH:"🔒 Miembro Fundador NovaMente", vipP:"Próximamente: más retos diarios, niveles de exigencia, coach con IA y tu progreso semana a semana. Precio especial solo para los primeros 100 fundadores.",
+  vipBtn:"Quiero mi cupo de fundador", vipOk1:"✅ Cupo reservado. Te avisamos primero por correo.",
+  vipOk2:"✅ Cupo reservado. Déjanos tu correo arriba para avisarte primero.", vipDone:"✅ Tu cupo de fundador está reservado.",
+  next:"Próximo reto en", footer:"Juego de entrenamiento y hábito. No es una prueba médica ni diagnóstica.", legal:"Términos · Privacidad",
+  m100:"¡Mente afilada! 🧠⚡", m60:"¡Muy bien! Mañana vas por el pleno.", mLow:"Buen intento. Mañana, revancha.",
+  time:"Tiempo", streak:"Racha", day:"día", days:"días", prot:"🛡️ Usaste tu protector de racha de la semana",
+  seven:"🎉 ¡7 días seguidos!", hook:"¿Me ganas?", in:"en", dec:"," },
+ pt:{ doc:"NovaMente · Desafio diário", reto:"Desafio", start:"▶ Começar",
+  tipos:{memoria:"Memória", logica:"Lógica", atencion:"Atenção", reflexion:"Reflexão"},
+  h1:{memoria:"Quantos você lembra?", logica:"Qual número vem depois?", atencion:"De que cor está escrita?", reflexion:"Você pensa rápido ou pensa bem?"},
+  intro:{memoria:"Você verá <b>{n}</b> objetos por alguns segundos.<br>Depois, toque neles de memória.",
+         logica:"<b>5 sequências</b>. Encontre o padrão e escolha o número que continua.",
+         atencion:"Você verá <b>10 palavras</b> de cores. Toque na <b>cor da tinta</b>, não no que a palavra diz.",
+         reflexion:"<b>3 perguntas-pegadinha</b>. A primeira ideia costuma falhar: pare, confira e responda."},
+  sub:"1 a 3 minutos · Sem cadastro · Um tipo de desafio diferente por dia",
+  memo:"Memorize", pick:"Quais você viu?", hint:"Toque nos que você lembra", preg:"Pergunta {i} de {n}",
+  colores:["VERMELHO","AZUL","VERDE","AMARELO"], colorBtn:["Vermelho","Azul","Verde","Amarelo"],
+  lPreg:"Qual número vem depois?",
+  rArit:"Soma {d} a cada vez.", rGeo:"Multiplica por {r} a cada vez.", rAlt:"Alterna: soma {x} e subtrai {y}.", rFib:"Cada número é a soma dos dois anteriores.", rCuad:"São números ao quadrado: {n}×{n}, {n1}×{n1}…",
+  qBat:"Um caderno e um lápis custam ${t} no total. O caderno custa ${d} a mais que o lápis. Quanto custa o lápis?",
+  eBat:"A resposta rápida é ${p2}, mas aí o caderno custaria ${dp2} e o total seria ${d4}. Se o lápis custa ${p}, o caderno custa ${dp} e juntos somam ${t}.",
+  qLily:"Uma mancha de algas dobra de tamanho a cada dia. Cobre o lago inteiro em {n} dias. Em que dia cobria metade do lago?",
+  eLily:"Se dobra a cada dia, no dia antes de cobrir tudo cobria exatamente a metade: o dia {n1}. A metade do tempo ({n2}) é a pegadinha.",
+  qMaq:"{k} máquinas fazem {k} peças em {k} minutos. Quantos minutos {m} máquinas levam para fazer {m} peças?",
+  eMaq:"Cada máquina faz 1 peça em {k} minutos. {m} máquinas trabalhando ao mesmo tempo fazem {m} peças nos mesmos {k} minutos.",
+  oDia:"Dia {x}", oMin:"{x} min",
+  piensa:"💡 Como pensar", correcta:"Correta", tuya:"Sua resposta",
+  expMem:"Dica para amanhã: invente uma mini história que una os objetos em ordem (o 🍩 cai sobre o 🎁…). Para muita gente, uma história funciona melhor que uma lista.",
+  expLog:"Método: olhe primeiro a diferença entre números seguidos. Se não for sempre igual, veja se multiplica, se alterna ou se soma os dois anteriores.",
+  expAte:"Ler é quase automático, por isso a palavra empurra a resposta errada. Escolher a cor da tinta obriga a frear esse impulso: é concentração em ação (efeito Stroop).",
+  expRef:"Estas perguntas são feitas para a primeira ideia falhar. O hábito treinado é parar, conferir e depois responder.",
+  aciertos:"Acertos", wa:"Desafiar um amigo no WhatsApp", copy:"Copiar resultado", copied:"✅ Copiado", copyPrompt:"Copie seu resultado:",
+  emailH:"📩 Quer um aviso amanhã?", emailP:"Toda manhã você recebe seu desafio. 1 clique e você joga. Cancele quando quiser.",
+  ph:"voce@email.com", emailBtn:"Me avise", emailBad:"Confira seu e-mail, parece incompleto.", saving:"Salvando…",
+  emailOk:"✅ Pronto! Amanhã cedo chega seu desafio.", err:"Não foi possível salvar. Tente de novo.",
+  vipH:"🔒 Membro Fundador NovaMente", vipP:"Em breve: mais desafios diários, níveis de exigência, coach com IA e seu progresso semana a semana. Preço especial só para os primeiros 100 fundadores.",
+  vipBtn:"Quero minha vaga de fundador", vipOk1:"✅ Vaga reservada. Avisaremos você primeiro por e-mail.",
+  vipOk2:"✅ Vaga reservada. Deixe seu e-mail acima para ser avisado primeiro.", vipDone:"✅ Sua vaga de fundador está reservada.",
+  next:"Próximo desafio em", footer:"Jogo de treino e hábito. Não é um teste médico nem diagnóstico.", legal:"Termos · Privacidade",
+  m100:"Mente afiada! 🧠⚡", m60:"Muito bem! Amanhã você gabarita.", mLow:"Boa tentativa. Amanhã tem revanche.",
+  time:"Tempo", streak:"Sequência", day:"dia", days:"dias", prot:"🛡️ Você usou seu protetor de sequência da semana",
+  seven:"🎉 7 dias seguidos!", hook:"Consegue me vencer?", in:"em", dec:"," },
+ en:{ doc:"NovaMente · Daily challenge", reto:"Challenge", start:"▶ Start",
+  tipos:{memoria:"Memory", logica:"Logic", atencion:"Focus", reflexion:"Reflection"},
+  h1:{memoria:"How many can you remember?", logica:"What number comes next?", atencion:"What color is the ink?", reflexion:"Do you think fast or think well?"},
+  intro:{memoria:"You'll see <b>{n}</b> objects for a few seconds.<br>Then tap them from memory.",
+         logica:"<b>5 sequences</b>. Find the pattern and pick the number that comes next.",
+         atencion:"You'll see <b>10 color words</b>. Tap the <b>ink color</b>, not what the word says.",
+         reflexion:"<b>3 trick questions</b>. Your first idea will often be wrong: pause, check, then answer."},
+  sub:"1 to 3 minutes · No sign-up · A different type of challenge every day",
+  memo:"Memorize", pick:"Which ones did you see?", hint:"Tap the ones you remember", preg:"Question {i} of {n}",
+  colores:["RED","BLUE","GREEN","YELLOW"], colorBtn:["Red","Blue","Green","Yellow"],
+  lPreg:"What number comes next?",
+  rArit:"Add {d} each time.", rGeo:"Multiply by {r} each time.", rAlt:"Alternate: add {x}, subtract {y}.", rFib:"Each number is the sum of the previous two.", rCuad:"They are squares: {n}×{n}, {n1}×{n1}…",
+  qBat:"A notebook and a pencil cost ${t} in total. The notebook costs ${d} more than the pencil. How much does the pencil cost?",
+  eBat:"The quick answer is ${p2}, but then the notebook would cost ${dp2} and the total would be ${d4}. If the pencil costs ${p}, the notebook costs ${dp} and together they add up to ${t}.",
+  qLily:"A patch of algae doubles in size every day. It covers the whole lake in {n} days. On which day did it cover half the lake?",
+  eLily:"If it doubles every day, the day before it covers everything it covered exactly half: day {n1}. Half the time ({n2}) is the trap.",
+  qMaq:"{k} machines make {k} parts in {k} minutes. How many minutes do {m} machines take to make {m} parts?",
+  eMaq:"Each machine makes 1 part in {k} minutes. {m} machines working at once make {m} parts in the same {k} minutes.",
+  oDia:"Day {x}", oMin:"{x} min",
+  piensa:"💡 How to think it through", correcta:"Correct", tuya:"Your answer",
+  expMem:"Tip for tomorrow: make up a tiny story that links the objects in order (the 🍩 falls on the 🎁…). Many people find a story easier than a list.",
+  expLog:"Method: first look at the difference between neighbors. If it isn't constant, check whether it multiplies, alternates, or adds the previous two.",
+  expAte:"Reading is almost automatic, so the word pushes you toward the wrong answer. Picking the ink color forces you to hold back that impulse: that's focus in action (the Stroop effect).",
+  expRef:"These questions are designed so your first idea fails. The habit you train is to pause, check, and then answer.",
+  aciertos:"Correct", wa:"Challenge a friend", copy:"Copy result", copied:"✅ Copied", copyPrompt:"Copy your result:",
+  emailH:"📩 Want a reminder tomorrow?", emailP:"Get your challenge every morning. 1 click and you play. Unsubscribe anytime.",
+  ph:"you@email.com", emailBtn:"Remind me", emailBad:"Check your email, it looks incomplete.", saving:"Saving…",
+  emailOk:"✅ Done! Your challenge arrives tomorrow morning.", err:"Couldn't save. Please try again.",
+  vipH:"🔒 NovaMente Founding Member", vipP:"Coming soon: more daily challenges, difficulty levels, an AI coach and your week-by-week progress. Special price for the first 100 founders only.",
+  vipBtn:"Save my founder spot", vipOk1:"✅ Spot saved. We'll email you first.",
+  vipOk2:"✅ Spot saved. Leave your email above so we can tell you first.", vipDone:"✅ Your founder spot is saved.",
+  next:"Next challenge in", footer:"A training and habit game. Not a medical or diagnostic test.", legal:"Terms · Privacy",
+  m100:"Sharp mind! 🧠⚡", m60:"Great job! Go for a perfect score tomorrow.", mLow:"Nice try. Rematch tomorrow.",
+  time:"Time", streak:"Streak", day:"day", days:"days", prot:"🛡️ You used this week's streak shield",
+  seven:"🎉 7 days in a row!", hook:"Can you beat me?", in:"in", dec:"." }
 };
 function detectarIdioma(){
   const p = (new URLSearchParams(location.search).get("lang") || "").slice(0,2).toLowerCase();
@@ -207,7 +308,7 @@ function detectarIdioma(){
 }
 const LANG = detectarIdioma();
 const T = TXT[LANG];
-const EMOJIS = ["🍎","🚗","🐶","🎸","⚽","🌙","🔑","🎈","🌵","🐙","🍕","🚀","🦋","🎲","📚","🧲","🍉","🐢","⏰","🎁","🌻","🦊","🍩","⛵","🍄","🎩","🐝","🍋","🧩","🦉"];
+const fmt = (s, o) => s.replace(/\{(\w+)\}/g, (m, k) => (k in o ? o[k] : m));
 
 /* Almacenamiento local seguro */
 const S = {
@@ -222,15 +323,76 @@ const AHORA = new Date();
 const HOY = fechaISO(AHORA);
 const NUM = Math.max(1, diasEntre(CONFIG.LANZAMIENTO, HOY) + 1);
 
-/* Reto del día: igual para todos, generado solo (sin crear contenido a mano) */
+/* Reto del día: igual para todos, generado solo. Rota: Memoria → Lógica → Atención → Reflexión */
 function rng(seed){ return function(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function barajar(arr, r){ const a = arr.slice(); for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
-const N = [5,4,5,5,6,6,7][AHORA.getDay()];           // dificultad según el día (lunes fácil, sábado difícil)
+const TIPOS = ["memoria","logica","atencion","reflexion"];
+const TIPO = TIPOS[(NUM - 1) % 4];
+const ICONO = { memoria:"🧠", logica:"🔢", atencion:"🎯", reflexion:"💡" };
 const R = rng(Number(HOY.replace(/-/g, "")));
+const entre = (a, b) => a + Math.floor(R() * (b - a + 1));
+
+/* --- Memoria (igual que antes) --- */
+const EMOJIS = ["🍎","🚗","🐶","🎸","⚽","🌙","🔑","🎈","🌵","🐙","🍕","🚀","🦋","🎲","📚","🧲","🍉","🐢","⏰","🎁","🌻","🦊","🍩","⛵","🍄","🎩","🐝","🍋","🧩","🦉"];
+const N = [5,4,5,5,6,6,7][AHORA.getDay()];
 const MEZCLA = barajar(EMOJIS, R);
 const OBJETIVO = MEZCLA.slice(0, N);
 const OPCIONES = barajar(MEZCLA.slice(0, 12), R);
 const MS_MEMORIA = 1500 + N * 800;
+
+/* --- Utilidad: 4 opciones distintas con la correcta --- */
+function opciones(correcta, candidatas, paso){
+  const set = [correcta];
+  for(const c of candidatas){ if(c > 0 && Number.isInteger(c) && !set.includes(c) && set.length < 4) set.push(c); }
+  let k = 1;
+  while(set.length < 4){ const c = correcta + k * (paso || 1) * (k % 2 ? 1 : -1); if(c > 0 && !set.includes(c)) set.push(c); k++; }
+  return barajar(set, R);
+}
+
+/* --- Lógica: 5 secuencias --- */
+function genLogica(){
+  return barajar(["arit","geo","alt","fib","cuad"], R).map(tipo => {
+    let serie, resp, regla, cand, paso = 1;
+    if(tipo === "arit"){ const a = entre(2,20), d = entre(2,9); serie = [a, a+d, a+2*d, a+3*d]; resp = a+4*d; regla = fmt(T.rArit, {d}); cand = [resp+d, resp-1, a+3*d+d+1]; paso = d; }
+    if(tipo === "geo"){ const a = entre(1,4), r = entre(2,3); serie = [a, a*r, a*r*r, a*r*r*r]; resp = a*r**4; regla = fmt(T.rGeo, {r}); cand = [serie[3] + (serie[3]-serie[2]), resp*r, resp-a]; paso = r; }
+    if(tipo === "alt"){ const a = entre(10,30), x = entre(3,8), y = entre(1, x-1); serie = [a, a+x, a+x-y, a+2*x-y, a+2*x-2*y]; resp = a+3*x-2*y; regla = fmt(T.rAlt, {x, y}); cand = [resp-x-y, a+2*x-3*y, resp+y]; }
+    if(tipo === "fib"){ const a = entre(1,5), b = a + entre(1,4); serie = [a, b, a+b, a+2*b, 2*a+3*b]; resp = 3*a+5*b; regla = T.rFib; cand = [resp+1, 2*a+3*b+b, resp-a]; }
+    if(tipo === "cuad"){ const n = entre(2,7); serie = [n*n, (n+1)**2, (n+2)**2, (n+3)**2]; resp = (n+4)**2; regla = fmt(T.rCuad, {n, n1: n+1}); cand = [(n+3)**2 + ((n+3)**2 - (n+2)**2), resp+2, resp-1]; }
+    const ops = opciones(resp, cand, paso);
+    return { html: '<div class="muted">'+T.lPreg+'</div><div class="serie">'+serie.join(", ")+", ?</div>",
+             corto: serie.join(", ")+", ?", ops: ops.map(String), correcta: ops.indexOf(resp), nota: regla };
+  });
+}
+
+/* --- Atención: 10 palabras (efecto Stroop) --- */
+const TINTAS = ["#E5484D", "#2F6BFF", "#1E9E5A", "#D9A400"];
+function genAtencion(){
+  const out = [];
+  for(let i = 0; i < 10; i++){
+    const palabra = entre(0,3);
+    const tinta = (i === 2 || i === 6) ? palabra : (palabra + entre(1,3)) % 4;   // 2 coinciden, 8 engañan
+    out.push({ html: '<div class="stroop" style="color:'+TINTAS[tinta]+'">'+T.colores[palabra]+'</div>',
+               ops: T.colorBtn.slice(), correcta: tinta, sinRevelar: true });
+  }
+  return out;
+}
+
+/* --- Reflexión: 3 preguntas trampa con números distintos cada día --- */
+function genReflexion(){
+  const plantillas = {
+    bat(){ const d = [100,200,300,500][entre(0,3)], p = [5,10,15,20,25][entre(0,4)], t = d + 2*p;
+      const ops = opciones(p, [2*p, 3*p, p+5], 5);
+      return { html: fmt(T.qBat, {t, d}), ops: ops.map(x => "$"+x), correcta: ops.indexOf(p),
+               nota: fmt(T.eBat, {p, p2: 2*p, dp2: d+2*p, d4: d+4*p, dp: d+p, t}) }; },
+    lily(){ const n = 2 * entre(10,30), ops = opciones(n-1, [n/2, n-2, Math.round(n/4)], 1);
+      return { html: fmt(T.qLily, {n}), ops: ops.map(x => fmt(T.oDia, {x})), correcta: ops.indexOf(n-1),
+               nota: fmt(T.eLily, {n1: n-1, n2: n/2}) }; },
+    maq(){ const k = entre(3,9), m = [50,80,100,120,150,200][entre(0,5)], ops = opciones(k, [m, 2*k, Math.round(m/k)], 1);
+      return { html: fmt(T.qMaq, {k, m}), ops: ops.map(x => fmt(T.oMin, {x})), correcta: ops.indexOf(k),
+               nota: fmt(T.eMaq, {k, m}) }; }
+  };
+  return barajar(["bat","lily","maq"], R).map(k => plantillas[k]());
+}
 
 /* Identidad anónima y referido */
 function nuevoId(){ try{ return crypto.randomUUID().replace(/-/g,"").slice(0,16); }catch(e){ return Math.random().toString(36).slice(2,18); } }
@@ -240,7 +402,7 @@ const refURL = (params.get("r") || "").replace(/[^a-z0-9]/gi, "").slice(0, 32);
 if(refURL && refURL !== ID && !S.get("ref", null)) S.set("ref", refURL);
 const REF = S.get("ref", null);
 
-/* Supabase (si no está configurado, el juego funciona igual pero no guarda) */
+/* Supabase (si falla, el juego funciona igual pero no guarda) */
 let db = null;
 try{
   if(window.supabase && CONFIG.SUPABASE_URL.indexOf("https://") === 0){
@@ -251,11 +413,11 @@ async function guardar(tabla, fila){
   if(!db) return false;
   try{
     let { error } = await db.from(tabla).insert(fila);
-    if(error && fila.idioma && /idioma/i.test(error.message || "")){   // si aún no corriste el SQL de idiomas, guarda sin idioma
+    if(error && fila.idioma && /idioma/i.test(error.message || "")){
       const copia = Object.assign({}, fila); delete copia.idioma;
       ({ error } = await db.from(tabla).insert(copia));
     }
-    if(!error || error.code === "23505") return true;   // 23505 = ya existía: cuenta como OK
+    if(!error || error.code === "23505") return true;
     console.warn("NovaMente:", error);
     return false;
   }catch(e){ return false; }
@@ -285,77 +447,142 @@ function sumarRacha(){
 }
 
 /* Vistas */
-function mostrar(id){ ["v-inicio","v-memoria","v-elegir","v-resultado"].forEach(v => $(v).hidden = (v !== id)); window.scrollTo(0,0); }
+const VISTAS = ["v-inicio","v-memoria","v-elegir","v-pregunta","v-resultado"];
+function mostrar(id){ VISTAS.forEach(v => $(v).hidden = (v !== id)); window.scrollTo(0,0); }
 function pintarRacha(n){ $("racha").textContent = "🔥 " + n; }
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-/* Juego */
-let t0 = 0, elegidos = [], cerrado = false;
-function empezar(){
+/* ===== Cierre común de cualquier reto ===== */
+let t0 = 0;
+function cerrar(aciertos, total, revisa, exp){
+  const seg = Math.round((performance.now() - t0) / 100) / 10;
+  const racha = sumarRacha();
+  const res = { num: NUM, fecha: HOY, tipo: TIPO, aciertos, total, seg, racha, protector: usoProtector, revisa, exp };
+  S.set("res_" + HOY, res);
+  guardar("eventos", { anon_id: ID, tipo: "jugada", fecha: HOY, reto: NUM, aciertos, total, segundos: seg, ref: REF, idioma: LANG });
+  pintarResultado(res);
+}
+
+/* ===== Memoria ===== */
+let elegidos = [], cerrado = false;
+function empezarMemoria(){
   mostrar("v-memoria");
   $("memo").innerHTML = OBJETIVO.map(e => "<span>"+e+"</span>").join("");
   const b = $("barra"); b.style.transition = "none"; b.style.width = "100%";
   requestAnimationFrame(() => requestAnimationFrame(() => { b.style.transition = "width " + MS_MEMORIA + "ms linear"; b.style.width = "0%"; }));
-  setTimeout(elegir, MS_MEMORIA);
+  setTimeout(elegirMemoria, MS_MEMORIA);
 }
-function elegir(){
+function elegirMemoria(){
   mostrar("v-elegir");
   $("cont").textContent = "0/" + N;
   const g = $("grid"); g.innerHTML = "";
   OPCIONES.forEach(e => {
     const bt = document.createElement("button");
     bt.className = "op"; bt.textContent = e; bt.type = "button";
-    bt.onclick = () => tocar(bt, e);
+    bt.onclick = () => tocarMemoria(bt, e);
     g.appendChild(bt);
   });
   t0 = performance.now();
 }
-function tocar(bt, e){
+function tocarMemoria(bt, e){
   if(cerrado) return;
   if(bt.classList.contains("sel")){ bt.classList.remove("sel"); elegidos = elegidos.filter(x => x !== e); }
   else { bt.classList.add("sel"); elegidos.push(e); }
   $("cont").textContent = elegidos.length + "/" + N;
-  if(elegidos.length === N){ cerrado = true; setTimeout(terminar, 300); }
-}
-function terminar(){
-  const seg = Math.round((performance.now() - t0) / 100) / 10;
-  const aciertos = elegidos.filter(e => OBJETIVO.includes(e)).length;
-  const racha = sumarRacha();
-  const res = { num: NUM, fecha: HOY, aciertos, total: N, seg, racha, objetivo: OBJETIVO, elegidos, protector: usoProtector };
-  S.set("res_" + HOY, res);
-  guardar("eventos", { anon_id: ID, tipo: "jugada", fecha: HOY, reto: NUM, aciertos, total: N, segundos: seg, ref: REF, idioma: LANG });
-  pintarResultado(res);
+  if(elegidos.length === N){
+    cerrado = true;
+    setTimeout(() => {
+      const aciertos = elegidos.filter(e => OBJETIVO.includes(e)).length;
+      const revisa = '<div class="revisa">' + OBJETIVO.map(e => '<span class="'+(elegidos.includes(e) ? "ok" : "no")+'">'+e+'</span>').join("") + '</div>';
+      cerrar(aciertos, N, revisa, T.expMem);
+    }, 300);
+  }
 }
 
-/* Resultado */
+/* ===== Preguntas (Lógica, Atención, Reflexión) ===== */
+function empezarPreguntas(lista, exp){
+  let i = 0, aciertos = 0; const hist = [];
+  mostrar("v-pregunta");
+  t0 = performance.now();
+  const pintar = () => {
+    const q = lista[i];
+    $("pTag").textContent = ICONO[TIPO] + " " + T.tipos[TIPO] + " · " + fmt(T.preg, {i: i+1, n: lista.length});
+    $("pProg").style.width = (i / lista.length * 100) + "%";
+    $("pTexto").innerHTML = q.html;
+    const box = $("pOpc"); box.innerHTML = "";
+    q.ops.forEach((o, k) => {
+      const b = document.createElement("button"); b.className = "opc"; b.type = "button"; b.textContent = o;
+      b.onclick = () => {
+        [...box.children].forEach(x => x.disabled = true);
+        const bien = k === q.correcta; if(bien) aciertos++;
+        b.classList.add(bien ? "bien" : "mal");
+        if(!bien && !q.sinRevelar) box.children[q.correcta].classList.add("bien");
+        hist.push({ q, k, bien });
+        setTimeout(() => { i++; if(i < lista.length) pintar(); else fin(); }, q.sinRevelar ? 350 : 900);
+      };
+      box.appendChild(b);
+    });
+  };
+  const fin = () => {
+    $("pProg").style.width = "100%";
+    let revisa;
+    if(TIPO === "atencion"){
+      revisa = "<p><b>" + T.aciertos + ": " + aciertos + "/" + lista.length + "</b></p>";
+    } else {
+      revisa = '<ul class="lista">' + hist.map(h =>
+        "<li>" + (h.bien ? "✅ " : "❌ ") + (TIPO === "logica" ? "<b>" + esc(h.q.corto) + "</b>" : esc(h.q.html)) +
+        "<br>" + T.correcta + ": <b>" + esc(h.q.ops[h.q.correcta]) + "</b>" + (h.bien ? "" : " · " + T.tuya + ": " + esc(h.q.ops[h.k])) +
+        "<br><span class='muted'>" + esc(h.q.nota) + "</span></li>").join("") + "</ul>";
+    }
+    cerrar(aciertos, lista.length, revisa, exp);
+  };
+  pintar();
+}
+
+function empezar(){
+  if(TIPO === "memoria") return empezarMemoria();
+  if(TIPO === "logica") return empezarPreguntas(genLogica(), T.expLog);
+  if(TIPO === "atencion") return empezarPreguntas(genAtencion(), T.expAte);
+  return empezarPreguntas(genReflexion(), T.expRef);
+}
+
+/* ===== Resultado ===== */
 function seg2txt(s){ return String(s).replace(".", T.dec); }
 function diasTxt(n){ return n + " " + (n === 1 ? T.day : T.days); }
 function textoCompartir(res){
   const url = location.origin + location.pathname + "?r=" + ID + "&lang=" + LANG;
-  const cuadros = "🟩".repeat(res.aciertos) + "🟥".repeat(res.total - res.aciertos);
-  return "🧠 NovaMente #" + res.num + "\n" +
+  const tipo = res.tipo || "memoria";
+  return "🧠 NovaMente #" + res.num + " · " + ICONO[tipo] + " " + T.tipos[tipo] + "\n" +
          "✅ " + res.aciertos + "/" + res.total + " " + T.in + " " + seg2txt(res.seg) + " s\n" +
-         cuadros + "\n" +
+         "🟩".repeat(res.aciertos) + "🟥".repeat(res.total - res.aciertos) + "\n" +
          "🔥 " + T.streak + ": " + diasTxt(res.racha) + "\n" +
          T.hook + " 👉 " + url;
 }
 function pintarResultado(res){
+  if(!res.tipo){   // resultados guardados con la versión anterior
+    res.tipo = "memoria";
+    res.revisa = '<div class="revisa">' + (res.objetivo || []).map(e => '<span class="'+((res.elegidos || []).includes(e) ? "ok" : "no")+'">'+e+'</span>').join("") + '</div>';
+    res.exp = T.expMem;
+  }
   mostrar("v-resultado");
   pintarRacha(res.racha);
-  $("rNum").textContent = T.reto + " #" + res.num;
+  $("rNum").textContent = T.reto + " #" + res.num + " · " + ICONO[res.tipo] + " " + T.tipos[res.tipo];
   $("rScore").textContent = res.aciertos + "/" + res.total;
   const pct = res.aciertos / res.total;
   $("rMsg").textContent = pct === 1 ? T.m100 : pct >= 0.6 ? T.m60 : T.mLow;
   $("rCuadros").textContent = "🟩".repeat(res.aciertos) + "🟥".repeat(res.total - res.aciertos);
-  $("rRevisa").innerHTML = res.objetivo.map(e => '<span class="'+(res.elegidos.includes(e) ? "ok" : "no")+'">'+e+'</span>').join("");
   let info = T.time + ": " + seg2txt(res.seg) + " s · " + T.streak + ": " + diasTxt(res.racha);
   if(res.protector) info += " · " + T.prot;
   if(res.racha === 7) info += " · " + T.seven;
   $("rInfo").textContent = info;
+  $("tPiensa").textContent = T.piensa;
+  $("rRevisa").innerHTML = res.revisa || "";
+  $("rExp").textContent = res.exp || "";
   const txt = textoCompartir(res);
   $("bWa").href = "https://wa.me/?text=" + encodeURIComponent(txt);
   $("bWa").onclick = (ev) => {
     guardar("eventos", { anon_id: ID, tipo: "compartir", fecha: HOY, reto: res.num, idioma: LANG });
-    if(LANG === "en" && navigator.share){ ev.preventDefault(); navigator.share({ text: txt }).catch(() => {}); }  // EE. UU.: menú nativo (iMessage, WhatsApp, etc.)
+    if(LANG === "en" && navigator.share){ ev.preventDefault(); navigator.share({ text: txt }).catch(() => {}); }
   };
   $("bCopiar").onclick = async () => {
     try{ await navigator.clipboard.writeText(txt); $("bCopiar").textContent = T.copied; }
@@ -388,7 +615,7 @@ async function quieroVip(){
   } else { $("vipMsg").textContent = T.err; $("bVip").disabled = false; }
 }
 
-/* Cuenta regresiva al próximo reto */
+/* Cuenta regresiva */
 let relojTimer = null;
 function reloj(){
   if(relojTimer) clearInterval(relojTimer);
@@ -401,12 +628,13 @@ function reloj(){
   tick(); relojTimer = setInterval(tick, 1000);
 }
 
-/* Arranque: textos en el idioma detectado */
+/* Arranque */
 document.documentElement.lang = LANG;
 document.title = T.doc;
-$("numReto").textContent = T.reto + " #" + NUM;
-$("tH1").textContent = T.h1;
-$("tIntro").innerHTML = T.intro.replace("{n}", N);
+$("numReto").textContent = T.reto + " #" + NUM + " · " + ICONO[TIPO] + " " + T.tipos[TIPO];
+$("chips").innerHTML = TIPOS.map(t => '<span class="chip'+(t === TIPO ? " on" : "")+'">'+ICONO[t]+" "+T.tipos[t]+'</span>').join("");
+$("tH1").textContent = T.h1[TIPO];
+$("tIntro").innerHTML = fmt(T.intro[TIPO], {n: N});
 $("tSub").textContent = T.sub;
 $("bEmpezar").textContent = T.start;
 $("tMemo").textContent = T.memo;
