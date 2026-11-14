@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaMente · ¿Cuántos recuerdas?</title>
+<meta name="description" content="El reto diario de memoria. 1 minuto al día. Sin registro.">
+<meta property="og:title" content="NovaMente · ¿Cuántos recuerdas?">
+<meta property="og:description" content="El reto diario de memoria. 1 minuto al día. Sin registro.">
+<meta name="theme-color" content="#163B72">
+<style>
+  :root{
+    --azul:#163B72; --turquesa:#1BCFC9; --aqua:#63E7D8; --electrico:#4C7EFF;
+    --violeta:#B37BFF; --grafito:#233548; --fondo:#F5F8FC; --blanco:#FFFFFF;
+    --grad:linear-gradient(135deg,#1BCFC9 0%,#4C7EFF 55%,#B37BFF 100%);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--fondo);color:var(--grafito);min-height:100vh;display:flex;justify-content:center}
+  .app{width:100%;max-width:440px;padding:18px 18px 28px;display:flex;flex-direction:column;min-height:100vh}
+  header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+  .logo{font-weight:800;font-size:1.25rem;color:var(--azul);display:flex;align-items:center;gap:8px}
+  .logo i{width:22px;height:22px;border-radius:50% 50% 50% 12%;background:var(--grad);display:inline-block}
+  .racha{background:var(--blanco);border:1px solid #E3E9F2;border-radius:99px;padding:6px 14px;font-weight:800;color:var(--azul)}
+  .card{background:var(--blanco);border:1px solid #E3E9F2;border-radius:22px;padding:24px 20px;box-shadow:0 10px 30px rgba(22,59,114,.07);margin-bottom:14px}
+  h1{font-size:1.7rem;line-height:1.15;margin:0 0 8px;color:var(--azul)}
+  h2{font-size:1.15rem;margin:0 0 8px;color:var(--azul)}
+  p{margin:0 0 12px;line-height:1.5}
+  .muted{color:#6B7A90;font-size:.92rem}
+  .tag{display:inline-block;font-size:.78rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--electrico);margin-bottom:10px}
+  .btn{display:block;width:100%;border:0;border-radius:16px;padding:17px;font:800 1.08rem system-ui,sans-serif;cursor:pointer;text-align:center;text-decoration:none}
+  .btn-main{background:var(--grad);color:#fff;box-shadow:0 8px 20px rgba(76,126,255,.3)}
+  .btn-wa{background:#25D366;color:#fff;margin-bottom:10px}
+  .btn-light{background:#EEF3FA;color:var(--azul)}
+  .btn:active{transform:scale(.98)}
+  .memo{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:3rem;padding:18px 0}
+  .barra{height:8px;background:#E3E9F2;border-radius:99px;overflow:hidden}
+  .barra div{height:100%;width:100%;background:var(--grad)}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+  .op{font-size:2.1rem;aspect-ratio:1;border-radius:16px;border:2px solid #E3E9F2;background:var(--blanco);cursor:pointer}
+  .op.sel{border-color:var(--electrico);background:#EAF0FF;transform:scale(.94)}
+  .score{font-size:3.4rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin:4px 0}
+  .cuadros{font-size:1.6rem;letter-spacing:2px;margin:6px 0 12px}
+  .revisa{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0 14px}
+  .revisa span{font-size:1.7rem;padding:4px 6px;border-radius:12px}
+  .ok{background:#E3FAF6}.no{background:#FDECEC}
+  input{width:100%;padding:15px;border-radius:14px;border:2px solid #E3E9F2;font:600 1rem system-ui,sans-serif;margin-bottom:10px}
+  input:focus{outline:none;border-color:var(--turquesa)}
+  .vip{border:2px dashed var(--violeta)}
+  .center{text-align:center}
+  .reloj{font-weight:800;font-size:1.3rem;color:var(--azul)}
+  footer{margin-top:auto;padding-top:16px;text-align:center;font-size:.78rem;color:#8A97AA}
+  .der{display:flex;align-items:center;gap:8px}
+  .langs{display:flex;gap:2px;font-size:.75rem;font-weight:800}
+  .langs a{padding:4px 6px;border-radius:8px;color:#8A97AA;cursor:pointer;text-decoration:none}
+  .langs a.on{background:#EAF0FF;color:var(--azul)}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main class="app">
+  <header>
+    <div class="logo"><i></i>NovaMente</div>
+    <div class="der">
+      <div class="langs" id="langs"><a data-l="es">ES</a><a data-l="pt">PT</a><a data-l="en">EN</a></div>
+      <div class="racha" id="racha">🔥 0</div>
+    </div>
+  </header>
+
+  <!-- 1. INICIO -->
+  <section id="v-inicio">
+    <div class="card center">
+      <div class="tag" id="numReto">Reto #1</div>
+      <h1 id="tH1">¿Cuántos recuerdas?</h1>
+      <p id="tIntro"></p>
+      <p class="muted" id="tSub"></p>
+      <button class="btn btn-main" id="bEmpezar">▶ Empezar</button>
+    </div>
+  </section>
+
+  <!-- 2. MEMORIZAR -->
+  <section id="v-memoria" hidden>
+    <div class="card center">
+      <div class="tag" id="tMemo">Memoriza</div>
+      <div class="memo" id="memo"></div>
+      <div class="barra"><div id="barra"></div></div>
+    </div>
+  </section>
+
+  <!-- 3. ELEGIR -->
+  <section id="v-elegir" hidden>
+    <div class="card center">
+      <div class="tag" id="tPick">¿Cuáles viste?</div>
+      <h2 id="cont">0/5</h2>
+      <div class="grid" id="grid"></div>
+      <p class="muted" id="tHint">Toca los que recuerdas</p>
+    </div>
+  </section>
+
+  <!-- 4. RESULTADO -->
+  <section id="v-resultado" hidden>
+    <div class="card center">
+      <div class="tag" id="rNum">Reto #1</div>
+      <div class="score" id="rScore">5/5</div>
+      <h2 id="rMsg"></h2>
+      <div class="cuadros" id="rCuadros"></div>
+      <div class="revisa" id="rRevisa"></div>
+      <p class="muted" id="rInfo"></p>
+      <a class="btn btn-wa" id="bWa" target="_blank" rel="noopener">Retar a un amigo por WhatsApp</a>
+      <button class="btn btn-light" id="bCopiar">Copiar resultado</button>
+    </div>
+
+    <div class="card" id="cEmail">
+      <h2 id="tEmailH">📩 ¿Te aviso mañana?</h2>
+      <p class="muted" id="tEmailP"></p>
+      <input type="email" id="email" placeholder="tu@correo.com" autocomplete="email" inputmode="email">
+      <button class="btn btn-main" id="bEmail">Avísame</button>
+      <p class="muted" id="emailMsg"></p>
+    </div>
+
+    <div class="card vip" id="cVip">
+      <h2 id="tVipH">🔒 Miembro Fundador NovaMente</h2>
+      <p class="muted" id="tVipP"></p>
+      <button class="btn btn-light" id="bVip">Quiero mi cupo de fundador</button>
+      <p class="muted" id="vipMsg"></p>
+    </div>
+
+    <div class="card center">
+      <p class="muted" id="tNext">Próximo reto en</p>
+      <div class="reloj" id="reloj">--:--:--</div>
+    </div>
+  </section>
+
+  <footer><span id="tFooter">Juego de entrenamiento y hábito. No es una prueba médica ni diagnóstica.</span><br><a href="/#legal" id="tLegal" style="color:#8A97AA">Términos · Privacidad</a></footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* =========================================================
+   CONFIGURACIÓN: SOLO CAMBIA ESTAS 3 LÍNEAS
+   ========================================================= */
+const CONFIG = {
+  SUPABASE_URL: "https://vouoxlnggfbfivrfuwjz.supabase.co",       // ej: https://abcd1234.supabase.co
+  SUPABASE_KEY: "sb_publishable_yhkPdbQ5yISsoXLxctYTwQ_-Tu3_mWt",   // la clave publishable / anon (NUNCA la secret)
+  LANZAMIENTO: "2026-11-12"                         // día del Reto #1
+};
+/* ========================================================= */
+
+const $ = id => document.getElementById(id);
+
+/* =========================================================
+   IDIOMAS: español, portugués, inglés (se detecta solo)
+   ========================================================= */
+const TXT = {
+  es: { doc:"NovaMente · ¿Cuántos recuerdas?", reto:"Reto", h1:"¿Cuántos recuerdas?",
+        intro:"Verás <b>{n}</b> objetos por unos segundos.<br>Después, tócalos de memoria.",
+        sub:"1 minuto · Sin registro · Un reto nuevo cada día", start:"▶ Empezar", memo:"Memoriza",
+        pick:"¿Cuáles viste?", hint:"Toca los que recuerdas", wa:"Retar a un amigo por WhatsApp",
+        copy:"Copiar resultado", copied:"✅ Copiado", copyPrompt:"Copia tu resultado:",
+        emailH:"📩 ¿Te aviso mañana?", emailP:"Cada mañana recibes tu reto. 1 clic y juegas. Te das de baja cuando quieras.",
+        ph:"tu@correo.com", emailBtn:"Avísame", emailBad:"Revisa tu correo, parece incompleto.", saving:"Guardando…",
+        emailOk:"✅ ¡Listo! Mañana temprano te llega tu reto.", err:"No se pudo guardar. Intenta de nuevo.",
+        vipH:"🔒 Miembro Fundador NovaMente", vipP:"Próximamente: más retos diarios, rutas de memoria y atención, y tu progreso semana a semana. Precio especial solo para los primeros 100 fundadores.",
+        vipBtn:"Quiero mi cupo de fundador", vipOk1:"✅ Cupo reservado. Te avisamos primero por correo.",
+        vipOk2:"✅ Cupo reservado. Déjanos tu correo arriba para avisarte primero.", vipDone:"✅ Tu cupo de fundador está reservado.",
+        next:"Próximo reto en", footer:"Juego de entrenamiento y hábito. No es una prueba médica ni diagnóstica.",
+        m100:"¡Memoria de acero! 🧠⚡", m60:"¡Muy bien! Mañana vas por el pleno.", mLow:"Buen intento. Mañana, revancha.",
+        time:"Tiempo", streak:"Racha", day:"día", days:"días", prot:"🛡️ Usaste tu protector de racha de la semana",
+        seven:"🎉 ¡7 días seguidos!", hook:"¿Me ganas?", in:"en", dec:",", legal:"Términos · Privacidad" },
+  pt: { doc:"NovaMente · Quantos você lembra?", reto:"Desafio", h1:"Quantos você lembra?",
+        intro:"Você verá <b>{n}</b> objetos por alguns segundos.<br>Depois, toque neles de memória.",
+        sub:"1 minuto · Sem cadastro · Um desafio novo por dia", start:"▶ Começar", memo:"Memorize",
+        pick:"Quais você viu?", hint:"Toque nos que você lembra", wa:"Desafiar um amigo no WhatsApp",
+        copy:"Copiar resultado", copied:"✅ Copiado", copyPrompt:"Copie seu resultado:",
+        emailH:"📩 Quer um aviso amanhã?", emailP:"Toda manhã você recebe seu desafio. 1 clique e você joga. Cancele quando quiser.",
+        ph:"voce@email.com", emailBtn:"Me avise", emailBad:"Confira seu e-mail, parece incompleto.", saving:"Salvando…",
+        emailOk:"✅ Pronto! Amanhã cedo chega seu desafio.", err:"Não foi possível salvar. Tente de novo.",
+        vipH:"🔒 Membro Fundador NovaMente", vipP:"Em breve: mais desafios diários, trilhas de memória e atenção, e seu progresso semana a semana. Preço especial só para os primeiros 100 fundadores.",
+        vipBtn:"Quero minha vaga de fundador", vipOk1:"✅ Vaga reservada. Avisaremos você primeiro por e-mail.",
+        vipOk2:"✅ Vaga reservada. Deixe seu e-mail acima para ser avisado primeiro.", vipDone:"✅ Sua vaga de fundador está reservada.",
+        next:"Próximo desafio em", footer:"Jogo de treino e hábito. Não é um teste médico nem diagnóstico.",
+        m100:"Memória de aço! 🧠⚡", m60:"Muito bem! Amanhã você gabarita.", mLow:"Boa tentativa. Amanhã tem revanche.",
+        time:"Tempo", streak:"Sequência", day:"dia", days:"dias", prot:"🛡️ Você usou seu protetor de sequência da semana",
+        seven:"🎉 7 dias seguidos!", hook:"Consegue me vencer?", in:"em", dec:",", legal:"Termos · Privacidade" },
+  en: { doc:"NovaMente · How many can you remember?", reto:"Challenge", h1:"How many can you remember?",
+        intro:"You'll see <b>{n}</b> objects for a few seconds.<br>Then tap them from memory.",
+        sub:"1 minute · No sign-up · A new challenge every day", start:"▶ Start", memo:"Memorize",
+        pick:"Which ones did you see?", hint:"Tap the ones you remember", wa:"Challenge a friend",
+        copy:"Copy result", copied:"✅ Copied", copyPrompt:"Copy your result:",
+        emailH:"📩 Want a reminder tomorrow?", emailP:"Get your challenge every morning. 1 click and you play. Unsubscribe anytime.",
+        ph:"you@email.com", emailBtn:"Remind me", emailBad:"Check your email, it looks incomplete.", saving:"Saving…",
+        emailOk:"✅ Done! Your challenge arrives tomorrow morning.", err:"Couldn't save. Please try again.",
+        vipH:"🔒 NovaMente Founding Member", vipP:"Coming soon: more daily challenges, memory and focus tracks, and your week-by-week progress. Special price for the first 100 founders only.",
+        vipBtn:"Save my founder spot", vipOk1:"✅ Spot saved. We'll email you first.",
+        vipOk2:"✅ Spot saved. Leave your email above so we can tell you first.", vipDone:"✅ Your founder spot is saved.",
+        next:"Next challenge in", footer:"A training and habit game. Not a medical or diagnostic test.",
+        m100:"Memory of steel! 🧠⚡", m60:"Great job! Go for a perfect score tomorrow.", mLow:"Nice try. Rematch tomorrow.",
+        time:"Time", streak:"Streak", day:"day", days:"days", prot:"🛡️ You used this week's streak shield",
+        seven:"🎉 7 days in a row!", hook:"Can you beat me?", in:"in", dec:".", legal:"Terms · Privacy" }
+};
+function detectarIdioma(){
+  const p = (new URLSearchParams(location.search).get("lang") || "").slice(0,2).toLowerCase();
+  if(TXT[p]){ try{ localStorage.setItem("nm_lang", JSON.stringify(p)); }catch(e){} return p; }
+  try{ const g = JSON.parse(localStorage.getItem("nm_lang")); if(TXT[g]) return g; }catch(e){}
+  const navs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || "en"];
+  for(const l of navs){ const c = String(l).slice(0,2).toLowerCase(); if(TXT[c]) return c; }
+  return "en";
+}
+const LANG = detectarIdioma();
+const T = TXT[LANG];
+const EMOJIS = ["🍎","🚗","🐶","🎸","⚽","🌙","🔑","🎈","🌵","🐙","🍕","🚀","🦋","🎲","📚","🧲","🍉","🐢","⏰","🎁","🌻","🦊","🍩","⛵","🍄","🎩","🐝","🍋","🧩","🦉"];
+
+/* Almacenamiento local seguro */
+const S = {
+  get(k, d){ try{ const v = localStorage.getItem("nm_"+k); return v === null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("nm_"+k, JSON.stringify(v)); }catch(e){} }
+};
+
+/* Fechas */
+function fechaISO(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function diasEntre(a, b){ return Math.round((Date.parse(b+"T12:00:00") - Date.parse(a+"T12:00:00")) / 86400000); }
+const AHORA = new Date();
+const HOY = fechaISO(AHORA);
+const NUM = Math.max(1, diasEntre(CONFIG.LANZAMIENTO, HOY) + 1);
+
+/* Reto del día: igual para todos, generado solo (sin crear contenido a mano) */
+function rng(seed){ return function(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function barajar(arr, r){ const a = arr.slice(); for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const N = [5,4,5,5,6,6,7][AHORA.getDay()];           // dificultad según el día (lunes fácil, sábado difícil)
+const R = rng(Number(HOY.replace(/-/g, "")));
+const MEZCLA = barajar(EMOJIS, R);
+const OBJETIVO = MEZCLA.slice(0, N);
+const OPCIONES = barajar(MEZCLA.slice(0, 12), R);
+const MS_MEMORIA = 1500 + N * 800;
+
+/* Identidad anónima y referido */
+function nuevoId(){ try{ return crypto.randomUUID().replace(/-/g,"").slice(0,16); }catch(e){ return Math.random().toString(36).slice(2,18); } }
+let ID = S.get("id", null); if(!ID){ ID = nuevoId(); S.set("id", ID); }
+const params = new URLSearchParams(location.search);
+const refURL = (params.get("r") || "").replace(/[^a-z0-9]/gi, "").slice(0, 32);
+if(refURL && refURL !== ID && !S.get("ref", null)) S.set("ref", refURL);
+const REF = S.get("ref", null);
+
+/* Supabase (si no está configurado, el juego funciona igual pero no guarda) */
+let db = null;
+try{
+  if(window.supabase && CONFIG.SUPABASE_URL.indexOf("https://") === 0){
+    db = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
+  }
+}catch(e){ db = null; }
+async function guardar(tabla, fila){
+  if(!db) return false;
+  try{
+    let { error } = await db.from(tabla).insert(fila);
+    if(error && fila.idioma && /idioma/i.test(error.message || "")){   // si aún no corriste el SQL de idiomas, guarda sin idioma
+      const copia = Object.assign({}, fila); delete copia.idioma;
+      ({ error } = await db.from(tabla).insert(copia));
+    }
+    if(!error || error.code === "23505") return true;   // 23505 = ya existía: cuenta como OK
+    console.warn("NovaMente:", error);
+    return false;
+  }catch(e){ return false; }
+}
+
+/* Racha con protector automático (1 día perdonado por semana) */
+function rachaVigente(){
+  const ult = S.get("ultimo", null); const racha = S.get("racha", 0);
+  if(!ult) return 0;
+  const gap = diasEntre(ult, HOY);
+  if(gap <= 1) return racha;
+  const prot = S.get("protUsado", null);
+  if(gap === 2 && (!prot || diasEntre(prot, HOY) >= 7)) return racha;
+  return 0;
+}
+let usoProtector = false;
+function sumarRacha(){
+  const ult = S.get("ultimo", null); let racha = S.get("racha", 0);
+  if(ult === HOY) return racha;
+  const gap = ult ? diasEntre(ult, HOY) : 99;
+  const prot = S.get("protUsado", null);
+  if(gap === 1) racha += 1;
+  else if(gap === 2 && (!prot || diasEntre(prot, HOY) >= 7)){ racha += 1; S.set("protUsado", HOY); usoProtector = true; }
+  else racha = 1;
+  S.set("racha", racha); S.set("ultimo", HOY);
+  return racha;
+}
+
+/* Vistas */
+function mostrar(id){ ["v-inicio","v-memoria","v-elegir","v-resultado"].forEach(v => $(v).hidden = (v !== id)); window.scrollTo(0,0); }
+function pintarRacha(n){ $("racha").textContent = "🔥 " + n; }
+
+/* Juego */
+let t0 = 0, elegidos = [], cerrado = false;
+function empezar(){
+  mostrar("v-memoria");
+  $("memo").innerHTML = OBJETIVO.map(e => "<span>"+e+"</span>").join("");
+  const b = $("barra"); b.style.transition = "none"; b.style.width = "100%";
+  requestAnimationFrame(() => requestAnimationFrame(() => { b.style.transition = "width " + MS_MEMORIA + "ms linear"; b.style.width = "0%"; }));
+  setTimeout(elegir, MS_MEMORIA);
+}
+function elegir(){
+  mostrar("v-elegir");
+  $("cont").textContent = "0/" + N;
+  const g = $("grid"); g.innerHTML = "";
+  OPCIONES.forEach(e => {
+    const bt = document.createElement("button");
+    bt.className = "op"; bt.textContent = e; bt.type = "button";
+    bt.onclick = () => tocar(bt, e);
+    g.appendChild(bt);
+  });
+  t0 = performance.now();
+}
+function tocar(bt, e){
+  if(cerrado) return;
+  if(bt.classList.contains("sel")){ bt.classList.remove("sel"); elegidos = elegidos.filter(x => x !== e); }
+  else { bt.classList.add("sel"); elegidos.push(e); }
+  $("cont").textContent = elegidos.length + "/" + N;
+  if(elegidos.length === N){ cerrado = true; setTimeout(terminar, 300); }
+}
+function terminar(){
+  const seg = Math.round((performance.now() - t0) / 100) / 10;
+  const aciertos = elegidos.filter(e => OBJETIVO.includes(e)).length;
+  const racha = sumarRacha();
+  const res = { num: NUM, fecha: HOY, aciertos, total: N, seg, racha, objetivo: OBJETIVO, elegidos, protector: usoProtector };
+  S.set("res_" + HOY, res);
+  guardar("eventos", { anon_id: ID, tipo: "jugada", fecha: HOY, reto: NUM, aciertos, total: N, segundos: seg, ref: REF, idioma: LANG });
+  pintarResultado(res);
+}
+
+/* Resultado */
+function seg2txt(s){ return String(s).replace(".", T.dec); }
+function diasTxt(n){ return n + " " + (n === 1 ? T.day : T.days); }
+function textoCompartir(res){
+  const url = location.origin + location.pathname + "?r=" + ID + "&lang=" + LANG;
+  const cuadros = "🟩".repeat(res.aciertos) + "🟥".repeat(res.total - res.aciertos);
+  return "🧠 NovaMente #" + res.num + "\n" +
+         "✅ " + res.aciertos + "/" + res.total + " " + T.in + " " + seg2txt(res.seg) + " s\n" +
+         cuadros + "\n" +
+         "🔥 " + T.streak + ": " + diasTxt(res.racha) + "\n" +
+         T.hook + " 👉 " + url;
+}
+function pintarResultado(res){
+  mostrar("v-resultado");
+  pintarRacha(res.racha);
+  $("rNum").textContent = T.reto + " #" + res.num;
+  $("rScore").textContent = res.aciertos + "/" + res.total;
+  const pct = res.aciertos / res.total;
+  $("rMsg").textContent = pct === 1 ? T.m100 : pct >= 0.6 ? T.m60 : T.mLow;
+  $("rCuadros").textContent = "🟩".repeat(res.aciertos) + "🟥".repeat(res.total - res.aciertos);
+  $("rRevisa").innerHTML = res.objetivo.map(e => '<span class="'+(res.elegidos.includes(e) ? "ok" : "no")+'">'+e+'</span>').join("");
+  let info = T.time + ": " + seg2txt(res.seg) + " s · " + T.streak + ": " + diasTxt(res.racha);
+  if(res.protector) info += " · " + T.prot;
+  if(res.racha === 7) info += " · " + T.seven;
+  $("rInfo").textContent = info;
+  const txt = textoCompartir(res);
+  $("bWa").href = "https://wa.me/?text=" + encodeURIComponent(txt);
+  $("bWa").onclick = (ev) => {
+    guardar("eventos", { anon_id: ID, tipo: "compartir", fecha: HOY, reto: res.num, idioma: LANG });
+    if(LANG === "en" && navigator.share){ ev.preventDefault(); navigator.share({ text: txt }).catch(() => {}); }  // EE. UU.: menú nativo (iMessage, WhatsApp, etc.)
+  };
+  $("bCopiar").onclick = async () => {
+    try{ await navigator.clipboard.writeText(txt); $("bCopiar").textContent = T.copied; }
+    catch(e){ prompt(T.copyPrompt, txt); }
+    guardar("eventos", { anon_id: ID, tipo: "compartir", fecha: HOY, reto: res.num, idioma: LANG });
+  };
+  if(S.get("email", null)) $("cEmail").hidden = true;
+  if(S.get("vip", false)){ $("bVip").hidden = true; $("vipMsg").textContent = T.vipDone; }
+  reloj();
+}
+
+/* Correo (1 campo) */
+async function suscribir(){
+  const email = $("email").value.trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ $("emailMsg").textContent = T.emailBad; return; }
+  $("bEmail").disabled = true; $("emailMsg").textContent = T.saving;
+  const ok = await guardar("suscriptores", { email, anon_id: ID, idioma: LANG });
+  if(ok){ S.set("email", email); $("emailMsg").textContent = T.emailOk; $("email").hidden = true; $("bEmail").hidden = true; }
+  else { $("emailMsg").textContent = T.err; $("bEmail").disabled = false; }
+}
+
+/* Fundador (prueba de intención de pago) */
+async function quieroVip(){
+  $("bVip").disabled = true;
+  const ok = await guardar("eventos", { anon_id: ID, tipo: "vip", fecha: HOY, reto: NUM, idioma: LANG });
+  if(ok){
+    S.set("vip", true); $("bVip").hidden = true;
+    $("vipMsg").textContent = S.get("email", null) ? T.vipOk1 : T.vipOk2;
+    if(!S.get("email", null)) $("email").focus();
+  } else { $("vipMsg").textContent = T.err; $("bVip").disabled = false; }
+}
+
+/* Cuenta regresiva al próximo reto */
+let relojTimer = null;
+function reloj(){
+  if(relojTimer) clearInterval(relojTimer);
+  const tick = () => {
+    const ahora = new Date(); const manana = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate() + 1);
+    const s = Math.max(0, Math.floor((manana - ahora) / 1000));
+    if(s === 0){ location.reload(); return; }
+    $("reloj").textContent = [Math.floor(s/3600), Math.floor(s%3600/60), s%60].map(x => String(x).padStart(2,"0")).join(":");
+  };
+  tick(); relojTimer = setInterval(tick, 1000);
+}
+
+/* Arranque: textos en el idioma detectado */
+document.documentElement.lang = LANG;
+document.title = T.doc;
+$("numReto").textContent = T.reto + " #" + NUM;
+$("tH1").textContent = T.h1;
+$("tIntro").innerHTML = T.intro.replace("{n}", N);
+$("tSub").textContent = T.sub;
+$("bEmpezar").textContent = T.start;
+$("tMemo").textContent = T.memo;
+$("tPick").textContent = T.pick;
+$("tHint").textContent = T.hint;
+$("bWa").textContent = T.wa;
+$("bCopiar").textContent = T.copy;
+$("tEmailH").textContent = T.emailH;
+$("tEmailP").textContent = T.emailP;
+$("email").placeholder = T.ph;
+$("bEmail").textContent = T.emailBtn;
+$("tVipH").textContent = T.vipH;
+$("tVipP").textContent = T.vipP;
+$("bVip").textContent = T.vipBtn;
+$("tNext").textContent = T.next;
+$("tFooter").textContent = T.footer;
+$("tLegal").textContent = T.legal;
+document.querySelectorAll("#langs a").forEach(a => {
+  if(a.dataset.l === LANG) a.classList.add("on");
+  a.onclick = () => { try{ localStorage.setItem("nm_lang", JSON.stringify(a.dataset.l)); }catch(e){} const u = new URL(location.href); u.searchParams.delete("lang"); location.href = u.toString(); };
+});
+pintarRacha(rachaVigente());
+$("bEmpezar").onclick = empezar;
+$("bEmail").onclick = suscribir;
+$("bVip").onclick = quieroVip;
+const yaJugado = S.get("res_" + HOY, null);
+if(yaJugado) pintarResultado(yaJugado);
+</script>
+</body>
+</html>

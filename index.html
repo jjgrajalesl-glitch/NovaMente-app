@@ -1,167 +1,328 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOVAMENTE — Neuro-Productividad & Riqueza Integral</title>
-    <style>
-        :root {
-            --bg-dark: #0A1118;     
-            --panel-bg: #121E2A;    
-            --accent-cyan: #2A7B88; 
-            --accent-gold: #D4AF37; 
-            --text-main: #F0F4F8;   
-            --text-muted: #8A99AD;  
-            --border-color: #1E3145;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Roboto, sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 460px;
-            width: 100%;
-            background: var(--panel-bg);
-            padding: 35px 25px;
-            border-radius: 24px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            text-align: center;
-        }
-
-        .brand-header { margin-bottom: 25px; }
-        
-        .logo-svg { width: 130px; height: auto; }
-
-        .brand-name {
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #2A7B88 0%, #D4AF37 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 5px 0 0 0;
-        }
-
-        .subtitle { color: var(--text-muted); font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; }
-
-        .streak-badge {
-            background: rgba(42, 123, 136, 0.1);
-            color: #49C5D6;
-            padding: 10px 22px;
-            border-radius: 50px;
-            border: 1px solid rgba(42, 123, 136, 0.25);
-            margin-bottom: 30px;
-        }
-
-        .game-box {
-            background: rgba(10, 17, 24, 0.6);
-            padding: 25px;
-            border-radius: 18px;
-            border: 1px solid var(--border-color);
-            border-left: 4px solid var(--accent-cyan);
-            text-align: left;
-            margin-bottom: 25px;
-        }
-
-        .btn-option {
-            display: block;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            padding: 16px;
-            margin: 14px 0;
-            border-radius: 14px;
-            color: var(--text-main);
-            cursor: pointer;
-            text-align: left;
-            transition: all 0.2s;
-        }
-
-        .btn-option:hover { border-color: var(--accent-cyan); }
-
-        .result-box { display: none; padding: 22px; border-radius: 14px; text-align: left; }
-
-        .paywall { display: none; margin-top: 35px; padding: 28px; border: 1px dashed rgba(212, 175, 55, 0.4); border-radius: 20px; }
-
-        .paywall h3 { color: var(--accent-gold); }
-
-        .btn-pay {
-            display: block;
-            background: linear-gradient(135deg, var(--accent-cyan) 0%, #1A545E 100%);
-            color: #FFFFFF;
-            padding: 15px;
-            border-radius: 14px;
-            text-decoration: none;
-            font-weight: 700;
-            margin-top: 20px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaMente · Entrena tu mente 5 minutos al día</title>
+<meta name="description" content="Reto diario de memoria gratis, Club NovaMente en Telegram y planes de entrenamiento mental.">
+<meta name="theme-color" content="#163B72">
+<link rel="icon" href="assets/john-mentor.jpg">
+<style>
+  /* Letra del sistema: no se cargan fuentes de Google (no se envía la IP del visitante a terceros) */
+  :root{--azul:#163B72;--turquesa:#1BCFC9;--electrico:#4C7EFF;--violeta:#B37BFF;--grafito:#233548;--fondo:#F5F8FC;
+        --grad:linear-gradient(135deg,#1BCFC9 0%,#4C7EFF 55%,#B37BFF 100%)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--fondo);color:var(--grafito);line-height:1.5}
+  a{color:var(--electrico)}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  header{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
+  .logo{font-weight:800;font-size:1.3rem;color:var(--azul);display:flex;align-items:center;gap:8px;text-decoration:none}
+  .logo i{width:24px;height:24px;border-radius:50% 50% 50% 12%;background:var(--grad);display:inline-block}
+  .langs{display:flex;gap:2px;font-size:.8rem;font-weight:800}
+  .langs a{padding:5px 8px;border-radius:8px;color:#8A97AA;cursor:pointer;text-decoration:none}
+  .langs a.on{background:#EAF0FF;color:var(--azul)}
+  .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center;padding:30px 0 40px}
+  h1{font-size:2.6rem;line-height:1.1;margin:0 0 14px;color:var(--azul)}
+  h2{font-size:1.8rem;margin:0 0 10px;color:var(--azul);text-align:center}
+  h3{margin:0 0 6px;color:var(--azul)}
+  .lead{font-size:1.15rem;margin:0 0 22px}
+  .btn{display:inline-block;border:0;border-radius:16px;padding:16px 24px;font:700 1.05rem system-ui,sans-serif;cursor:pointer;text-decoration:none;text-align:center}
+  .btn-main{background:var(--grad);color:#fff;box-shadow:0 8px 20px rgba(76,126,255,.3)}
+  .btn-tg{background:#229ED9;color:#fff}
+  .btn-light{background:#EEF3FA;color:var(--azul);width:100%}
+  .btns{display:flex;gap:12px;flex-wrap:wrap}
+  .mentor{background:#fff;border-radius:24px;padding:14px;box-shadow:0 10px 30px rgba(22,59,114,.08);text-align:center}
+  .mentor img{width:100%;border-radius:18px;display:block}
+  .mentor small{color:#8A97AA}
+  section{padding:40px 0}
+  .sub{text-align:center;color:#6B7A90;margin:0 auto 26px;max-width:640px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{background:#fff;border:1px solid #E3E9F2;border-radius:22px;padding:22px;box-shadow:0 10px 30px rgba(22,59,114,.06)}
+  .paso b{display:inline-flex;width:34px;height:34px;border-radius:50%;background:var(--grad);color:#fff;align-items:center;justify-content:center;margin-bottom:8px}
+  .toggle{display:flex;justify-content:center;gap:6px;margin:0 0 22px}
+  .toggle button{border:2px solid #E3E9F2;background:#fff;border-radius:99px;padding:10px 18px;font:700 .95rem system-ui,sans-serif;cursor:pointer;color:var(--grafito)}
+  .toggle button.on{border-color:var(--electrico);background:#EAF0FF;color:var(--azul)}
+  .badge{display:inline-block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:99px;background:#F1E8FF;color:#7A3FE0;margin-bottom:10px}
+  .plan.top{border:2px solid var(--electrico)}
+  .precio{font-size:2.2rem;font-weight:800;color:var(--azul);margin:6px 0 0}
+  .precio small{font-size:.95rem;color:#6B7A90;font-weight:600}
+  .equiv{color:#6B7A90;font-size:.9rem;min-height:1.4em;margin-bottom:12px}
+  .plan ul{padding-left:18px;margin:0 0 18px}
+  .plan li{margin:4px 0}
+  .nota{text-align:center;color:#6B7A90;font-size:.88rem;max-width:760px;margin:18px auto 0}
+  .aviso{display:none;margin-top:10px}
+  input{width:100%;padding:14px;border-radius:14px;border:2px solid #E3E9F2;font:600 1rem system-ui,sans-serif;margin:8px 0}
+  .muted{color:#6B7A90;font-size:.88rem}
+  details{background:#fff;border:1px solid #E3E9F2;border-radius:16px;padding:14px 18px;margin:10px auto;max-width:760px}
+  summary{font-weight:700;cursor:pointer;color:var(--azul)}
+  footer{border-top:1px solid #E3E9F2;padding:26px 0 40px;text-align:center;font-size:.85rem;color:#6B7A90}
+  footer nav a{margin:0 8px;font-weight:700}
+  @media(max-width:820px){.hero{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}h1{font-size:2rem}.mentor{max-width:320px;margin:0 auto}}
+</style>
 </head>
 <body>
-    <div id="google_translate_element" style="display:none;"></div>
-<div class="container">
-    <div class="brand-header">
-        <!-- SVG Logo Simplificado -->
-        <svg class="logo-svg" viewBox="0 0 400 250" xmlns="http://w3.org">
-            <path d="M120,180 C80,180 50,140 50,105 C50,65 90,45 130,45 C185,45 200,105 240,115 C280,125 320,100 340,75 C355,55 375,115 330,140 C280,170 245,125 210,120 C170,115 160,180 120,180 Z" fill="#2A7B88" opacity="0.85"/>
-        </svg>
-        <div class="brand-name">NOVAMENTE</div>
-        <p class="subtitle">Neuro-Productividad</p>
+<div class="wrap">
+  <header>
+    <a class="logo" href="/"><i></i>NovaMente</a>
+    <div class="langs" id="langs"><a data-l="es">ES</a><a data-l="pt">PT</a><a data-l="en">EN</a></div>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1 data-t="h1"></h1>
+      <p class="lead" data-t="lead"></p>
+      <div class="btns">
+        <a class="btn btn-main" id="bReto" data-t="ctaReto"></a>
+        <a class="btn btn-tg" id="bTg" target="_blank" rel="noopener" data-t="ctaTg"></a>
+      </div>
+      <p class="muted" data-t="free"></p>
     </div>
-    <div class="streak-badge" id="streak-display">🔥 Racha: 0 días</div>
-    <div class="game-box">Reto de Acción: ¿Opción segura o probabílistica?</div>
-    <div id="opciones">
-        <button class="btn-option" onclick="verificar('A')">A) Seguro</button>
-        <button class="btn-option" onclick="verificar('B')">B) Probabilidad</button>
+    <div class="mentor">
+      <img src="assets/john-mentor.jpg" alt="John Mentor">
+      <h3>John Mentor</h3>
+      <small data-t="mentorLbl"></small>
     </div>
-    <div class="result-box" id="resultado"></div>
-    <div class="paywall" id="paywall">
-        <h3>🔒 VIP</h3>
-        <a href="https://pay.hotmart.com/I106678231Y" class="btn-pay">Unirse</a>
-    </div>
+  </div>
 </div>
+
+<section style="background:#fff">
+  <div class="wrap">
+    <h2 data-t="howH"></h2>
+    <p class="sub" data-t="howSub"></p>
+    <div class="grid3">
+      <div class="card paso"><b>1</b><h3 data-t="s1h"></h3><p data-t="s1p"></p></div>
+      <div class="card paso"><b>2</b><h3 data-t="s2h"></h3><p data-t="s2p"></p></div>
+      <div class="card paso"><b>3</b><h3 data-t="s3h"></h3><p data-t="s3p"></p></div>
+    </div>
+  </div>
+</section>
+
+<section id="planes">
+  <div class="wrap">
+    <h2 data-t="plansH"></h2>
+    <p class="sub" data-t="plansSub"></p>
+    <div class="toggle">
+      <button id="tAnual" class="on" data-t="annual"></button>
+      <button id="tMes" data-t="monthly"></button>
+    </div>
+    <div class="grid3" id="planesGrid"></div>
+    <p class="nota" data-t="priceNote"></p>
+    <div class="card aviso" id="aviso" style="max-width:520px;margin:20px auto 0">
+      <h3 data-t="waitH"></h3>
+      <p class="muted" data-t="waitP"></p>
+      <input type="email" id="email" autocomplete="email" inputmode="email">
+      <button class="btn btn-main" style="width:100%" id="bEmail" data-t="waitBtn"></button>
+      <p class="muted" id="emailMsg"></p>
+    </div>
+  </div>
+</section>
+
+<section style="background:#fff">
+  <div class="wrap">
+    <h2 data-t="clubH"></h2>
+    <p class="sub" data-t="clubSub"></p>
+    <div style="text-align:center"><a class="btn btn-tg" id="bTg2" target="_blank" rel="noopener" data-t="ctaTg"></a></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 data-t="faqH"></h2>
+    <details><summary data-t="q1"></summary><p data-t="a1"></p></details>
+    <details><summary data-t="q2"></summary><p data-t="a2"></p></details>
+    <details><summary data-t="q3"></summary><p data-t="a3"></p></details>
+    <details><summary data-t="q4"></summary><p data-t="a4"></p></details>
+    <details><summary data-t="q5"></summary><p data-t="a5"></p></details>
+  </div>
+</section>
+
+<footer id="legal">
+  <div class="wrap">
+    <nav>
+      <a id="lTer" target="_blank" rel="noopener" data-t="terms"></a>·
+      <a id="lPri" target="_blank" rel="noopener" data-t="privacy"></a>·
+      <a id="lCan" target="_blank" rel="noopener" data-t="cancel"></a>·
+      <a id="lCon" data-t="contact"></a>
+    </nav>
+    <p data-t="disclaimer"></p>
+    <p>© <span id="anio"></span> NovaMente · novamentecognitive.com</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    // Lógica básica de racha
-    let racha = localStorage.getItem('racha_novamente') || 0;
-    document.getElementById('streak-display').innerText = `🔥 Racha: ${racha} días`;
-    function verificar(r) {
-        document.getElementById('resultado').style.display = "block";
-        document.getElementById('paywall').style.display = "block";
-        document.getElementById('resultado').innerText = r === 'B' ? "¡Excelente!" : "Intenta de nuevo.";
-    }
+/* =========================================================
+   CONFIGURACIÓN: SOLO CAMBIA ESTE BLOQUE
+   ========================================================= */
+const CONFIG = {
+  SUPABASE_URL: "https://vouoxlnggfbfivrfuwjz.supabase.co",
+  SUPABASE_KEY: "sb_publishable_yhkPdbQ5yISsoXLxctYTwQ_-Tu3_mWt",
+  RETO_URL: "/reto.html",
+  TELEGRAM: { es: "https://t.me/PEGA_CANAL_ES", pt: "https://t.me/PEGA_CANAL_PT", en: "https://t.me/PEGA_CANAL_EN" },
+  TERMINOS_URL: "PEGA_LINK_TERMINOS_IUBENDA",
+  PRIVACIDAD_URL: "PEGA_LINK_PRIVACIDAD_IUBENDA",
+  CANCELAR_URL: "PEGA_LINK_PORTAL_CLIENTES_DODO",
+  CONTACTO: "hola@novamentecognitive.com",
+  PLANES_ACTIVOS: false,            // false = "Próximamente" (no se vende). true = botones de pago.
+  CHECKOUT: {                        // links de pago de Dodo (solo se usan si PLANES_ACTIVOS = true)
+    basico_anual: "", basico_mes: "", intermedio_anual: "", intermedio_mes: "", experto_anual: "", experto_mes: ""
+  }
+};
+/* ========================================================= */
+
+const PRECIOS = { basico:{mes:4.97, anual:44.97}, intermedio:{mes:9.97, anual:89.97}, experto:{mes:19.97, anual:179.97} };
+
+const TXT = {
+ es:{ doc:"NovaMente · Entrena tu mente 5 minutos al día",
+  h1:"Entrena tu mente 5 minutos al día", lead:"Un reto nuevo cada día, un nivel que sube contigo y un club que te mantiene constante.",
+  ctaReto:"▶ Jugar el reto de hoy", ctaTg:"Unirme al Club en Telegram", free:"Gratis · Sin registro · 1 minuto",
+  mentorLbl:"Personaje creado con IA · Tu mentor en el Club",
+  howH:"Así funciona", howSub:"Simple: tú solo tocas Empezar.",
+  s1h:"Juega", s1p:"Un reto de memoria al día. Igual para todos, en 1 minuto.", s2h:"Mantén tu racha", s2p:"Vuelve mañana. Tu racha crece y tienes un día de descanso protegido por semana.",
+  s3h:"Únete al Club", s3p:"John Mentor comparte en Telegram técnicas prácticas de hábitos, enfoque y disciplina.",
+  plansH:"Planes NovaMente", plansSub:"Tres niveles. A más nivel, más exigencia.", annual:"Anual · Ahorra 25%", monthly:"Mensual",
+  soon:"Próximamente", choose:"Elegir plan", notify:"Avísame cuando abra", perMonth:"/mes", perYear:"/año",
+  equivY:"Equivale a {m}/mes · pago anual", equivM:"Pago mensual · cancela cuando quieras",
+  pBas:"Básico", pInt:"Intermedio", pExp:"Experto", popular:"Recomendado",
+  fBas:["3 juegos diarios","Niveles 1 a 3","Gráfica de tu progreso","2 protectores de racha por semana"],
+  fInt:["Todo lo del Básico","Niveles 1 a 6","Coach IA: un mensaje personal después de cada sesión","Reporte semanal","Reto de 30 días"],
+  fExp:["Todo lo del Intermedio","Niveles 1 a 10 (máxima exigencia)","Chat con el Coach IA (uso justo)","Duelos con amigos","Desafíos mensuales especiales"],
+  priceNote:"Precios finales en USD con impuestos incluidos. Puedes pagar en USD o en tu moneda local al cambio del día; verás el total exacto antes de pagar. La suscripción se renueva sola; cancelas en 1 clic cuando quieras. Garantía de reembolso de 30 días.",
+  waitH:"📩 Te avisamos cuando abran los planes", waitP:"Recibirás el reto diario y el aviso de apertura. Te das de baja con 1 clic.", ph:"tu@correo.com", waitBtn:"Avísame",
+  bad:"Revisa tu correo, parece incompleto.", saving:"Guardando…", ok:"✅ ¡Listo! Te avisaremos.", err:"No se pudo guardar. Intenta de nuevo.",
+  clubH:"Club NovaMente en Telegram", clubSub:"Gratis. Mensajes diarios de John Mentor con una técnica práctica para crear disciplina y cumplir tus objetivos, más un grupo para compartir avances.",
+  faqH:"Preguntas frecuentes",
+  q1:"¿Es un tratamiento médico o psicológico?", a1:"No. NovaMente es un juego de entrenamiento y hábitos. No diagnostica, no trata ni previene enfermedades, y no reemplaza a un profesional de la salud.",
+  q2:"¿Cómo cancelo?", a2:"En 1 clic desde el enlace «Cancelar suscripción» al pie de esta página y de cada correo. Conservas el acceso hasta el final del periodo pagado.",
+  q3:"¿Hay reembolso?", a3:"Sí. Si no estás conforme, te devolvemos el dinero dentro de los primeros 30 días de cada compra.",
+  q4:"¿Quién es John Mentor?", a4:"Es un personaje creado con inteligencia artificial. Sus mensajes y videos se generan con IA y se revisan con reglas de seguridad.",
+  q5:"¿Quién puede usar NovaMente?", a5:"Personas mayores de 18 años.",
+  terms:"Términos", privacy:"Privacidad", cancel:"Cancelar suscripción", contact:"Contacto",
+  disclaimer:"NovaMente es un juego de entrenamiento y hábitos. No es una prueba médica ni diagnóstica. John Mentor y el Coach son inteligencia artificial." },
+ pt:{ doc:"NovaMente · Treine sua mente 5 minutos por dia",
+  h1:"Treine sua mente 5 minutos por dia", lead:"Um desafio novo por dia, um nível que sobe com você e um clube que mantém você constante.",
+  ctaReto:"▶ Jogar o desafio de hoje", ctaTg:"Entrar no Clube no Telegram", free:"Grátis · Sem cadastro · 1 minuto",
+  mentorLbl:"Personagem criado com IA · Seu mentor no Clube",
+  howH:"Como funciona", howSub:"Simples: você só toca em Começar.",
+  s1h:"Jogue", s1p:"Um desafio de memória por dia. Igual para todos, em 1 minuto.", s2h:"Mantenha sua sequência", s2p:"Volte amanhã. Sua sequência cresce e você tem um dia de descanso protegido por semana.",
+  s3h:"Entre no Clube", s3p:"John Mentor compartilha no Telegram técnicas práticas de hábitos, foco e disciplina.",
+  plansH:"Planos NovaMente", plansSub:"Três níveis. Quanto maior o nível, maior a exigência.", annual:"Anual · Economize 25%", monthly:"Mensal",
+  soon:"Em breve", choose:"Escolher plano", notify:"Me avise quando abrir", perMonth:"/mês", perYear:"/ano",
+  equivY:"Equivale a {m}/mês · pagamento anual", equivM:"Pagamento mensal · cancele quando quiser",
+  pBas:"Básico", pInt:"Intermediário", pExp:"Expert", popular:"Recomendado",
+  fBas:["3 jogos diários","Níveis 1 a 3","Gráfico do seu progresso","2 protetores de sequência por semana"],
+  fInt:["Tudo do Básico","Níveis 1 a 6","Coach IA: uma mensagem pessoal após cada sessão","Relatório semanal","Desafio de 30 dias"],
+  fExp:["Tudo do Intermediário","Níveis 1 a 10 (exigência máxima)","Chat com o Coach IA (uso justo)","Duelos com amigos","Desafios mensais especiais"],
+  priceNote:"Preços finais em USD com impostos incluídos. Você pode pagar em USD ou na sua moeda local pelo câmbio do dia; verá o total exato antes de pagar. A assinatura renova automaticamente; você cancela em 1 clique quando quiser. Garantia de reembolso de 30 dias.",
+  waitH:"📩 Avisaremos quando os planos abrirem", waitP:"Você receberá o desafio diário e o aviso de abertura. Cancele com 1 clique.", ph:"voce@email.com", waitBtn:"Me avise",
+  bad:"Confira seu e-mail, parece incompleto.", saving:"Salvando…", ok:"✅ Pronto! Avisaremos você.", err:"Não foi possível salvar. Tente de novo.",
+  clubH:"Clube NovaMente no Telegram", clubSub:"Grátis. Mensagens diárias de John Mentor com uma técnica prática para criar disciplina e cumprir seus objetivos, mais um grupo para compartilhar avanços.",
+  faqH:"Perguntas frequentes",
+  q1:"É um tratamento médico ou psicológico?", a1:"Não. NovaMente é um jogo de treino e hábitos. Não diagnostica, não trata nem previne doenças, e não substitui um profissional de saúde.",
+  q2:"Como cancelo?", a2:"Em 1 clique pelo link «Cancelar assinatura» no rodapé desta página e de cada e-mail. Você mantém o acesso até o fim do período pago.",
+  q3:"Tem reembolso?", a3:"Sim. Se não ficar satisfeito, devolvemos o dinheiro nos primeiros 30 dias de cada compra.",
+  q4:"Quem é John Mentor?", a4:"É um personagem criado com inteligência artificial. Suas mensagens e vídeos são gerados com IA e revisados com regras de segurança.",
+  q5:"Quem pode usar a NovaMente?", a5:"Pessoas maiores de 18 anos.",
+  terms:"Termos", privacy:"Privacidade", cancel:"Cancelar assinatura", contact:"Contato",
+  disclaimer:"NovaMente é um jogo de treino e hábitos. Não é um teste médico nem diagnóstico. John Mentor e o Coach são inteligência artificial." },
+ en:{ doc:"NovaMente · Train your mind 5 minutes a day",
+  h1:"Train your mind 5 minutes a day", lead:"A new challenge every day, a level that grows with you and a club that keeps you consistent.",
+  ctaReto:"▶ Play today's challenge", ctaTg:"Join the Club on Telegram", free:"Free · No sign-up · 1 minute",
+  mentorLbl:"AI-generated character · Your mentor in the Club",
+  howH:"How it works", howSub:"Simple: you just tap Start.",
+  s1h:"Play", s1p:"One memory challenge a day. The same for everyone, in 1 minute.", s2h:"Keep your streak", s2p:"Come back tomorrow. Your streak grows and you get one protected rest day per week.",
+  s3h:"Join the Club", s3p:"John Mentor shares practical habit, focus and discipline techniques on Telegram.",
+  plansH:"NovaMente Plans", plansSub:"Three levels. The higher the level, the tougher the training.", annual:"Yearly · Save 25%", monthly:"Monthly",
+  soon:"Coming soon", choose:"Choose plan", notify:"Notify me when it opens", perMonth:"/mo", perYear:"/yr",
+  equivY:"Equals {m}/mo · billed yearly", equivM:"Billed monthly · cancel anytime",
+  pBas:"Basic", pInt:"Intermediate", pExp:"Expert", popular:"Recommended",
+  fBas:["3 daily games","Levels 1 to 3","Progress chart","2 streak shields per week"],
+  fInt:["Everything in Basic","Levels 1 to 6","AI Coach: a personal message after each session","Weekly report","30-day challenge"],
+  fExp:["Everything in Intermediate","Levels 1 to 10 (maximum difficulty)","Chat with the AI Coach (fair use)","Duels with friends","Special monthly challenges"],
+  priceNote:"Final prices in USD, taxes included. You can pay in USD or your local currency at the daily rate; you'll see the exact total before paying. The subscription renews automatically; cancel in 1 click anytime. 30-day money-back guarantee.",
+  waitH:"📩 We'll tell you when plans open", waitP:"You'll get the daily challenge and the launch notice. Unsubscribe in 1 click.", ph:"you@email.com", waitBtn:"Notify me",
+  bad:"Check your email, it looks incomplete.", saving:"Saving…", ok:"✅ Done! We'll let you know.", err:"Couldn't save. Please try again.",
+  clubH:"NovaMente Club on Telegram", clubSub:"Free. Daily messages from John Mentor with one practical technique to build discipline and reach your goals, plus a group to share progress.",
+  faqH:"FAQ",
+  q1:"Is this a medical or psychological treatment?", a1:"No. NovaMente is a training and habit game. It does not diagnose, treat or prevent any disease and does not replace a health professional.",
+  q2:"How do I cancel?", a2:"In 1 click from the “Cancel subscription” link at the bottom of this page and every email. You keep access until the end of the paid period.",
+  q3:"Is there a refund?", a3:"Yes. If you're not satisfied, we refund you within the first 30 days of each purchase.",
+  q4:"Who is John Mentor?", a4:"An AI-generated character. His messages and videos are generated with AI and checked against safety rules.",
+  q5:"Who can use NovaMente?", a5:"People aged 18 and over.",
+  terms:"Terms", privacy:"Privacy", cancel:"Cancel subscription", contact:"Contact",
+  disclaimer:"NovaMente is a training and habit game. It is not a medical or diagnostic test. John Mentor and the Coach are artificial intelligence." }
+};
+
+function detectarIdioma(){
+  const p = (new URLSearchParams(location.search).get("lang") || "").slice(0,2).toLowerCase();
+  if(TXT[p]){ try{ localStorage.setItem("nm_lang", JSON.stringify(p)); }catch(e){} return p; }
+  try{ const g = JSON.parse(localStorage.getItem("nm_lang")); if(TXT[g]) return g; }catch(e){}
+  const navs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || "en"];
+  for(const l of navs){ const c = String(l).slice(0,2).toLowerCase(); if(TXT[c]) return c; }
+  return "en";
+}
+const LANG = detectarIdioma(), T = TXT[LANG], $ = id => document.getElementById(id);
+const usd = n => "USD " + n.toFixed(2).replace(".", LANG === "en" ? "." : ",");
+const listo = u => u && u.indexOf("PEGA_") === -1;
+let periodo = "anual";
+
+function pintarPlanes(){
+  const planes = [["basico",T.pBas,T.fBas,false],["intermedio",T.pInt,T.fInt,true],["experto",T.pExp,T.fExp,false]];
+  $("planesGrid").innerHTML = planes.map(([k,nom,feats,top]) => {
+    const p = PRECIOS[k], anual = periodo === "anual";
+    const precio = anual ? p.anual : p.mes;
+    const equiv = anual ? T.equivY.replace("{m}", usd(p.anual/12)) : T.equivM;
+    const link = CONFIG.CHECKOUT[k + "_" + (anual ? "anual" : "mes")];
+    const activo = CONFIG.PLANES_ACTIVOS && listo(link);
+    const badge = !CONFIG.PLANES_ACTIVOS ? '<span class="badge">'+T.soon+'</span> ' : (top ? '<span class="badge">'+T.popular+'</span>' : '');
+    const btn = activo ? '<a class="btn btn-main" style="width:100%" href="'+link+'" target="_blank" rel="noopener">'+T.choose+'</a>'
+                       : '<button class="btn btn-light" data-aviso="1">'+T.notify+'</button>';
+    return '<div class="card plan'+(top?' top':'')+'">'+badge+'<h3>'+nom+'</h3>'+
+           '<div class="precio">'+usd(precio)+' <small>'+(anual?T.perYear:T.perMonth)+'</small></div>'+
+           '<div class="equiv">'+equiv+'</div><ul>'+feats.map(f=>'<li>'+f+'</li>').join("")+'</ul>'+btn+'</div>';
+  }).join("");
+  document.querySelectorAll("[data-aviso]").forEach(b => b.onclick = () => { $("aviso").style.display = "block"; $("email").focus(); });
+}
+
+/* Supabase solo para "Avísame" */
+let db = null;
+try{ if(window.supabase && CONFIG.SUPABASE_URL.indexOf("https://") === 0) db = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY, { auth:{ persistSession:false, autoRefreshToken:false } }); }catch(e){ db = null; }
+async function suscribir(){
+  const email = $("email").value.trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ $("emailMsg").textContent = T.bad; return; }
+  $("bEmail").disabled = true; $("emailMsg").textContent = T.saving;
+  let ok = false;
+  if(db){
+    try{
+      let { error } = await db.from("suscriptores").insert({ email, idioma: LANG });
+      if(error && /idioma/i.test(error.message || "")) ({ error } = await db.from("suscriptores").insert({ email }));
+      ok = !error || error.code === "23505";
+    }catch(e){ ok = false; }
+  }
+  if(ok){ $("emailMsg").textContent = T.ok; $("email").style.display = "none"; $("bEmail").style.display = "none"; }
+  else { $("emailMsg").textContent = T.err; $("bEmail").disabled = false; }
+}
+
+/* Textos, links y arranque */
+document.documentElement.lang = LANG; document.title = T.doc;
+document.querySelectorAll("[data-t]").forEach(el => { const v = T[el.dataset.t]; if(typeof v === "string") el.textContent = v; });
+$("email").placeholder = T.ph;
+$("bReto").href = CONFIG.RETO_URL + "?lang=" + LANG;
+const tg = CONFIG.TELEGRAM[LANG];
+[$("bTg"), $("bTg2")].forEach(b => { if(listo(tg)) b.href = tg; else b.style.display = "none"; });
+if(listo(CONFIG.TERMINOS_URL)) $("lTer").href = CONFIG.TERMINOS_URL;
+if(listo(CONFIG.PRIVACIDAD_URL)) $("lPri").href = CONFIG.PRIVACIDAD_URL;
+if(listo(CONFIG.CANCELAR_URL)) $("lCan").href = CONFIG.CANCELAR_URL;
+$("lCon").href = "mailto:" + CONFIG.CONTACTO;
+$("anio").textContent = new Date().getFullYear();
+$("tAnual").onclick = () => { periodo = "anual"; $("tAnual").classList.add("on"); $("tMes").classList.remove("on"); pintarPlanes(); };
+$("tMes").onclick = () => { periodo = "mes"; $("tMes").classList.add("on"); $("tAnual").classList.remove("on"); pintarPlanes(); };
+$("bEmail").onclick = suscribir;
+document.querySelectorAll("#langs a").forEach(a => {
+  if(a.dataset.l === LANG) a.classList.add("on");
+  a.onclick = () => { try{ localStorage.setItem("nm_lang", JSON.stringify(a.dataset.l)); }catch(e){} const u = new URL(location.href); u.searchParams.delete("lang"); location.href = u.toString(); };
+});
+pintarPlanes();
 </script>
-    <script type="text/javascript">
-    function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
-            pageLanguage: 'es',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            autoDisplay: false
-        }, 'google_translate_element');
-        
-        // Forzar al sistema a leer el idioma nativo del dispositivo del usuario
-        setTimeout(function() {
-            var usuarioIdioma = navigator.language || navigator.userLanguage;
-            var idiomaCorto = usuarioIdioma.substring(0, 2); // Ej: 'en', 'ja', 'de'
-            
-            if (idiomaCorto !== 'es') {
-                var selector = document.querySelector('.goog-te-combo');
-                if (selector) {
-                    selector.value = idiomaCorto;
-                    selector.dispatchEvent(new Event('change'));
-                }
-            }
-        }, 1000); // Espera 1 segundo a que cargue la página para traducir limpiamente
-    }
-</script>
-<script type="text/javascript" src="//://google.com"></script>
 </body>
 </html>

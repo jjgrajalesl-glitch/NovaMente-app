@@ -1,10 +1,12 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/$1"
+  "functions": {
+    "api/john-mentor.js": {
+      "maxDuration": 300,
+      "memory": 2048,
+      "includeFiles": "node_modules/ffmpeg-static/ffmpeg"
     }
+  },
+  "crons": [
+    { "path": "/api/john-mentor", "schedule": "0 12 * * *" }
   ]
 }

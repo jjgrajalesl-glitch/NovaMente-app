@@ -1,69 +1,16 @@
-# NovaMente
+# NovaMente · novamentecognitive.com
 
-## Sprint 08A — Foundation Layer
+Sitio web y automatizaciones de NovaMente.
 
-Este Sprint construye la infraestructura base del proyecto NovaMente.
+| Archivo | Qué es |
+|---|---|
+| `index.html` | Página principal (ES/PT/EN): reto gratis, Club Telegram, planes, legal |
+| `reto.html` | Reto diario de memoria (gratis, sin registro) |
+| `assets/` | Imágenes del sitio |
+| `api/john-mentor.js` | Video diario de John Mentor → Telegram (corre solo cada día, 7:00 Bogotá) |
+| `api/_media/` | Imagen, letra y licencia que usa el video |
+| `sql/` | Scripts ya usados en Supabase (registro) |
+| `vercel.json` | Configuración de Vercel y horario automático |
+| `package.json` | Herramienta de video (ffmpeg) |
 
-No implementa funcionalidades de negocio.
-
-Su propósito es preparar la arquitectura de base de datos para los siguientes Sprint.
-
----
-
-## Componentes
-
-- Schemas
-- Configuration Tables
-- Seed Data
-- Documentación
-- Checklist
-
----
-
-## Orden de ejecución
-
-1. 001_initial_schema.sql
-
-2. 002_configuration.sql
-
-3. 001_languages.sql
-
-4. 002_countries.sql
-
-5. 003_currencies.sql
-
-6. 004_roles.sql
-
-7. 005_categories.sql
-
----
-
-## Arquitectura
-
-GitHub
-
-↓
-
-Vercel
-
-↓
-
-Supabase
-
-↓
-
-OpenAI
-
-↓
-
-Make
-
-↓
-
-Hotmart
-
----
-
-Estado
-
-Foundation Layer
+Claves secretas: SOLO en Vercel → Settings → Environment Variables. Nunca en este repositorio.
