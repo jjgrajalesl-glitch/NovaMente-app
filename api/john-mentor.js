@@ -12,7 +12,18 @@ const path = require("path");
 const os = require("os");
 const { execFile } = require("child_process");
 
-const IMG = fs.readFileSync(path.join(__dirname, "_media", "john-mentor-video.jpg"));
+// Escenas de John Mentor: sube escena-1.jpg … escena-7.jpg a api/_media y rotan solas, una por día.
+// Si no hay escenas, usa john-mentor-video.jpg. (Cada línea es fija a propósito: así Vercel incluye los archivos.)
+const ESCENAS = [];
+try{ ESCENAS.push(fs.readFileSync(path.join(__dirname, "_media", "escena-1.jpg"))); }catch(e){}
+try{ ESCENAS.push(fs.readFileSync(path.join(__dirname, "_media", "escena-2.jpg"))); }catch(e){}
+try{ ESCENAS.push(fs.readFileSync(path.join(__dirname, "_media", "escena-3.jpg"))); }catch(e){}
+try{ ESCENAS.push(fs.readFileSync(path.join(__dirname, "_media", "escena-4.jpg"))); }catch(e){}
+try{ ESCENAS.push(fs.readFileSync(path.join(__dirname, "_media", "escena-5.jpg"))); }catch(e){}
+try{ ESCENAS.push(fs.readFileSync(path.join(__dirname, "_media", "escena-6.jpg"))); }catch(e){}
+try{ ESCENAS.push(fs.readFileSync(path.join(__dirname, "_media", "escena-7.jpg"))); }catch(e){}
+if(!ESCENAS.length) ESCENAS.push(fs.readFileSync(path.join(__dirname, "_media", "john-mentor-video.jpg")));
+const escenaDeHoy = () => ESCENAS[Math.floor(Date.now() / 86400000) % ESCENAS.length];   // una escena distinta cada día
 const FONT = fs.readFileSync(path.join(__dirname, "_media", "DejaVuSans-Bold.ttf"));
 
 const GEMINI = "https://generativelanguage.googleapis.com/v1beta/models/";
@@ -68,7 +79,7 @@ async function voz(texto){
 
 async function armarVideo(dir, idioma, audio){
   const img = path.join(dir, "img.jpg"), font = path.join(dir, "font.ttf");
-  if(!fs.existsSync(img)) fs.writeFileSync(img, IMG);
+  if(!fs.existsSync(img)) fs.writeFileSync(img, escenaDeHoy());
   if(!fs.existsSync(font)) fs.writeFileSync(font, FONT);
   const esWav = audio.slice(0, 4).toString("ascii") === "RIFF";        // los modelos nuevos entregan WAV; los anteriores, PCM 24 kHz
   const aud = path.join(dir, idioma + (esWav ? ".wav" : ".pcm"));

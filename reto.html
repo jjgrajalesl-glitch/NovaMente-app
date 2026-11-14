@@ -41,6 +41,10 @@
   .chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:4px 0 16px}
   .chip{font-size:.75rem;font-weight:700;padding:5px 10px;border-radius:99px;background:#EEF3FA;color:#6B7A90}
   .chip.on{background:var(--grad);color:#fff}
+  .niveles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 16px}
+  .nivel{border:2px solid #E3E9F2;background:#fff;border-radius:16px;padding:10px 2px;cursor:pointer;font:800 .8rem var(--font);color:var(--azul);white-space:nowrap}
+  .nivel small{display:block;font-weight:600;font-size:.7rem;color:#6B7A90;margin-top:2px}
+  .nivel.on{border-color:var(--electrico);background:#EAF0FF}
   .btn{display:block;width:100%;border:0;border-radius:16px;padding:17px;font:800 1.06rem var(--font);cursor:pointer;text-align:center;text-decoration:none}
   .btn-main{background:var(--grad);color:#fff;box-shadow:0 8px 20px rgba(76,126,255,.3)}
   .btn-wa{background:#25D366;color:#fff;margin-bottom:10px}
@@ -97,6 +101,8 @@
       <div class="tag" id="numReto">Reto #1</div>
       <div class="chips" id="chips"></div>
       <h1 id="tH1"></h1>
+      <p class="muted" id="tElige" style="margin-bottom:8px"></p>
+      <div class="niveles" id="niveles"></div>
       <p id="tIntro"></p>
       <p class="muted" id="tSub"></p>
       <button class="btn btn-main" id="bEmpezar">▶</button>
@@ -192,30 +198,47 @@ const $ = id => document.getElementById(id);
    TEXTOS EN 3 IDIOMAS
    ========================================================= */
 const TXT = {
- es:{ doc:"NovaMente · Reto diario", reto:"Reto", start:"▶ Empezar",
+ es:{ doc:"NovaMente · Reto diario", reto:"Reto", start:"▶ Empezar", nivelW:"Nivel",
   tipos:{memoria:"Memoria", logica:"Lógica", atencion:"Atención", reflexion:"Reflexión"},
+  niveles:{basico:"Básico", intermedio:"Intermedio", experto:"Experto"},
+  nivDesc:{basico:"Para calentar", intermedio:"Para pensar", experto:"Para exigirte"},
+  elige:"Elige tu nivel:",
   h1:{memoria:"¿Cuántos recuerdas?", logica:"¿Qué número sigue?", atencion:"¿De qué color está escrita?", reflexion:"¿Piensas rápido o piensas bien?"},
-  intro:{memoria:"Verás <b>{n}</b> objetos por unos segundos.<br>Después, tócalos de memoria.",
-         logica:"<b>5 secuencias</b>. Encuentra el patrón y elige el número que continúa.",
-         atencion:"Verás <b>10 palabras</b> de colores. Toca el <b>color de la tinta</b>, no lo que dice la palabra.",
-         reflexion:"<b>3 preguntas trampa</b>. La primera idea suele fallar: frena, comprueba y responde."},
+  intro:{memoria:"Verás <b>{q}</b> objetos por unos segundos.<br>Después, tócalos de memoria.",
+         logica:"<b>{q} secuencias</b>. Encuentra el patrón y elige el número que continúa.",
+         atencion:"Verás <b>{q} palabras</b> de colores. Toca el <b>color de la tinta</b>, no lo que dice la palabra.",
+         reflexion:"<b>{q} preguntas trampa</b>. La primera idea suele fallar: frena, comprueba y responde."},
   sub:"1 a 3 minutos · Sin registro · Un tipo de reto distinto cada día",
   memo:"Memoriza", pick:"¿Cuáles viste?", hint:"Toca los que recuerdas", preg:"Pregunta {i} de {n}",
-  colores:["ROJO","AZUL","VERDE","AMARILLO"], colorBtn:["Rojo","Azul","Verde","Amarillo"],
+  colores:["ROJO","AZUL","VERDE","AMARILLO","MORADO"], colorBtn:["Rojo","Azul","Verde","Amarillo","Morado"],
   lPreg:"¿Qué número sigue?",
-  rArit:"Suma {d} cada vez.", rGeo:"Multiplica por {r} cada vez.", rAlt:"Alterna: suma {x} y resta {y}.", rFib:"Cada número es la suma de los dos anteriores.", rCuad:"Son números al cuadrado: {n}×{n}, {n1}×{n1}…",
+  rArit:"Suma {d} cada vez.", rResta:"Resta {d} cada vez.", rGeo:"Multiplica por {r} cada vez.", rAlt:"Alterna: suma {x} y resta {y}.", rFib:"Cada número es la suma de los dos anteriores.", rCuad:"Son números al cuadrado: {n}×{n}, {n1}×{n1}…",
+  rCrec:"La diferencia crece {k} cada vez: +{d1}, +{d2}, +{d3}…", rDoble:"Multiplica por 2 y suma {c}.", rTrib:"Cada número es la suma de los tres anteriores.", rAltMul:"Alterna: multiplica por 2 y resta {y}.", rPrimos:"Son números primos: solo se dividen entre 1 y entre sí mismos.",
+  qOvejas:"Un granjero tiene {n} ovejas. Se escapan todas menos {k}. ¿Cuántas ovejas le quedan?",
+  eOvejas:"«Todas menos {k}» significa que {k} no se escaparon. La trampa es restar: {n} − {k} = {nk}.",
+  qCarrera:"En una carrera adelantas a la persona que va en el puesto {p}. ¿En qué puesto quedas?",
+  eCarrera:"Ocupas su lugar: quedas en el puesto {p}. La respuesta rápida ({p1}) olvida que solo pasaste a esa persona.",
+  qFila:"Hay {n} personas en una fila. Ana está en el puesto {k} contando desde adelante. ¿Cuántas personas hay detrás de Ana?",
+  eFila:"Delante de Ana hay {k1} personas, Ana ocupa 1 puesto y detrás quedan {n} − {k} = {nk}.",
   qBat:"Un cuaderno y un lápiz cuestan ${t} en total. El cuaderno cuesta ${d} más que el lápiz. ¿Cuánto cuesta el lápiz?",
   eBat:"La respuesta rápida es ${p2}, pero entonces el cuaderno costaría ${dp2} y el total sería ${d4}. Si el lápiz cuesta ${p}, el cuaderno cuesta ${dp} y juntos suman ${t}.",
   qLily:"Una mancha de algas duplica su tamaño cada día. Cubre todo el lago en {n} días. ¿En qué día cubría la mitad del lago?",
   eLily:"Si se duplica cada día, el día antes de cubrirlo todo cubría justo la mitad: el día {n1}. La mitad del tiempo ({n2}) es la trampa.",
   qMaq:"{k} máquinas hacen {k} piezas en {k} minutos. ¿Cuántos minutos tardan {m} máquinas en hacer {m} piezas?",
   eMaq:"Cada máquina hace 1 pieza en {k} minutos. {m} máquinas trabajando a la vez hacen {m} piezas en los mismos {k} minutos.",
-  oDia:"Día {x}", oMin:"{x} min",
+  qCaracol:"Un caracol está en el fondo de un pozo de {h} metros. De día sube {u} metros y de noche resbala {d}. ¿En cuántos días sale del pozo?",
+  eCaracol:"Cada día completo avanza {ud} m, pero el último día sube {u} m y sale sin resbalar. Necesita llegar antes a {hu} m: eso toma {a1} días, más el último = {a}.",
+  qSaludos:"En una reunión hay {n} personas y cada una saluda una vez a cada una de las demás. ¿Cuántos saludos hay en total?",
+  eSaludos:"Cada persona saluda a {n1}: {n} × {n1} = {dob}, pero así cada saludo se cuenta dos veces. Se divide entre 2: {a}.",
+  qTronco:"Cortar un tronco en {n} pedazos toma {m} minutos. Con cortes iguales, ¿cuántos minutos toma cortarlo en {n2} pedazos?",
+  eTronco:"Para {n} pedazos se hacen {n1} cortes: cada corte toma {c} min. Para {n2} pedazos se hacen {n21} cortes: {n21} × {c} = {a} min.",
+  oDia:"Día {x}", oMin:"{x} min", oPuesto:"Puesto {x}", oDias:"{x} días",
   piensa:"💡 Así se piensa", correcta:"Correcta", tuya:"Tu respuesta",
   expMem:"Truco para mañana: inventa una mini historia que una los objetos en orden (la 🍩 cae sobre el 🎁…). A muchas personas les funciona mejor una historia que una lista.",
-  expLog:"Método: mira primero la diferencia entre números seguidos. Si no es siempre igual, prueba si multiplica, si alterna o si suma los dos anteriores.",
+  expLog:"Método: mira primero la diferencia entre números seguidos. Si no es siempre igual, prueba si multiplica, si alterna o si suma los anteriores.",
   expAte:"Leer es casi automático, por eso la palabra empuja la respuesta equivocada. Elegir el color de la tinta obliga a frenar ese impulso: es concentración en acción (efecto Stroop).",
   expRef:"Estas preguntas están hechas para que la primera idea falle. El hábito que se entrena es frenar, comprobar y después responder.",
+  subeNivel:"¿Muy fácil? Mañana prueba el nivel {n}.",
   aciertos:"Aciertos", wa:"Retar a un amigo por WhatsApp", copy:"Copiar resultado", copied:"✅ Copiado", copyPrompt:"Copia tu resultado:",
   emailH:"📩 ¿Te aviso mañana?", emailP:"Cada mañana recibes tu reto. 1 clic y juegas. Te das de baja cuando quieras.",
   ph:"tu@correo.com", emailBtn:"Avísame", emailBad:"Revisa tu correo, parece incompleto.", saving:"Guardando…",
@@ -227,30 +250,47 @@ const TXT = {
   m100:"¡Mente afilada! 🧠⚡", m60:"¡Muy bien! Mañana vas por el pleno.", mLow:"Buen intento. Mañana, revancha.",
   time:"Tiempo", streak:"Racha", day:"día", days:"días", prot:"🛡️ Usaste tu protector de racha de la semana",
   seven:"🎉 ¡7 días seguidos!", hook:"¿Me ganas?", in:"en", dec:"," },
- pt:{ doc:"NovaMente · Desafio diário", reto:"Desafio", start:"▶ Começar",
+ pt:{ doc:"NovaMente · Desafio diário", reto:"Desafio", start:"▶ Começar", nivelW:"Nível",
   tipos:{memoria:"Memória", logica:"Lógica", atencion:"Atenção", reflexion:"Reflexão"},
+  niveles:{basico:"Básico", intermedio:"Intermediário", experto:"Expert"},
+  nivDesc:{basico:"Para aquecer", intermedio:"Para pensar", experto:"Para se desafiar"},
+  elige:"Escolha seu nível:",
   h1:{memoria:"Quantos você lembra?", logica:"Qual número vem depois?", atencion:"De que cor está escrita?", reflexion:"Você pensa rápido ou pensa bem?"},
-  intro:{memoria:"Você verá <b>{n}</b> objetos por alguns segundos.<br>Depois, toque neles de memória.",
-         logica:"<b>5 sequências</b>. Encontre o padrão e escolha o número que continua.",
-         atencion:"Você verá <b>10 palavras</b> de cores. Toque na <b>cor da tinta</b>, não no que a palavra diz.",
-         reflexion:"<b>3 perguntas-pegadinha</b>. A primeira ideia costuma falhar: pare, confira e responda."},
+  intro:{memoria:"Você verá <b>{q}</b> objetos por alguns segundos.<br>Depois, toque neles de memória.",
+         logica:"<b>{q} sequências</b>. Encontre o padrão e escolha o número que continua.",
+         atencion:"Você verá <b>{q} palavras</b> de cores. Toque na <b>cor da tinta</b>, não no que a palavra diz.",
+         reflexion:"<b>{q} perguntas-pegadinha</b>. A primeira ideia costuma falhar: pare, confira e responda."},
   sub:"1 a 3 minutos · Sem cadastro · Um tipo de desafio diferente por dia",
   memo:"Memorize", pick:"Quais você viu?", hint:"Toque nos que você lembra", preg:"Pergunta {i} de {n}",
-  colores:["VERMELHO","AZUL","VERDE","AMARELO"], colorBtn:["Vermelho","Azul","Verde","Amarelo"],
+  colores:["VERMELHO","AZUL","VERDE","AMARELO","ROXO"], colorBtn:["Vermelho","Azul","Verde","Amarelo","Roxo"],
   lPreg:"Qual número vem depois?",
-  rArit:"Soma {d} a cada vez.", rGeo:"Multiplica por {r} a cada vez.", rAlt:"Alterna: soma {x} e subtrai {y}.", rFib:"Cada número é a soma dos dois anteriores.", rCuad:"São números ao quadrado: {n}×{n}, {n1}×{n1}…",
+  rArit:"Soma {d} a cada vez.", rResta:"Subtrai {d} a cada vez.", rGeo:"Multiplica por {r} a cada vez.", rAlt:"Alterna: soma {x} e subtrai {y}.", rFib:"Cada número é a soma dos dois anteriores.", rCuad:"São números ao quadrado: {n}×{n}, {n1}×{n1}…",
+  rCrec:"A diferença cresce {k} a cada vez: +{d1}, +{d2}, +{d3}…", rDoble:"Multiplica por 2 e soma {c}.", rTrib:"Cada número é a soma dos três anteriores.", rAltMul:"Alterna: multiplica por 2 e subtrai {y}.", rPrimos:"São números primos: só se dividem por 1 e por eles mesmos.",
+  qOvejas:"Um fazendeiro tem {n} ovelhas. Fogem todas menos {k}. Quantas ovelhas sobram?",
+  eOvejas:"«Todas menos {k}» significa que {k} não fugiram. A pegadinha é subtrair: {n} − {k} = {nk}.",
+  qCarrera:"Numa corrida você ultrapassa a pessoa que está na posição {p}. Em que posição você fica?",
+  eCarrera:"Você ocupa o lugar dela: fica na posição {p}. A resposta rápida ({p1}) esquece que você só passou essa pessoa.",
+  qFila:"Há {n} pessoas numa fila. Ana está na posição {k} contando da frente. Quantas pessoas há atrás de Ana?",
+  eFila:"Na frente de Ana há {k1} pessoas, Ana ocupa 1 lugar e atrás ficam {n} − {k} = {nk}.",
   qBat:"Um caderno e um lápis custam ${t} no total. O caderno custa ${d} a mais que o lápis. Quanto custa o lápis?",
   eBat:"A resposta rápida é ${p2}, mas aí o caderno custaria ${dp2} e o total seria ${d4}. Se o lápis custa ${p}, o caderno custa ${dp} e juntos somam ${t}.",
   qLily:"Uma mancha de algas dobra de tamanho a cada dia. Cobre o lago inteiro em {n} dias. Em que dia cobria metade do lago?",
   eLily:"Se dobra a cada dia, no dia antes de cobrir tudo cobria exatamente a metade: o dia {n1}. A metade do tempo ({n2}) é a pegadinha.",
   qMaq:"{k} máquinas fazem {k} peças em {k} minutos. Quantos minutos {m} máquinas levam para fazer {m} peças?",
   eMaq:"Cada máquina faz 1 peça em {k} minutos. {m} máquinas trabalhando ao mesmo tempo fazem {m} peças nos mesmos {k} minutos.",
-  oDia:"Dia {x}", oMin:"{x} min",
+  qCaracol:"Um caracol está no fundo de um poço de {h} metros. De dia sobe {u} metros e à noite escorrega {d}. Em quantos dias ele sai do poço?",
+  eCaracol:"Cada dia completo avança {ud} m, mas no último dia sobe {u} m e sai sem escorregar. Antes precisa chegar a {hu} m: isso leva {a1} dias, mais o último = {a}.",
+  qSaludos:"Numa reunião há {n} pessoas e cada uma cumprimenta uma vez cada uma das outras. Quantos cumprimentos há no total?",
+  eSaludos:"Cada pessoa cumprimenta {n1}: {n} × {n1} = {dob}, mas assim cada cumprimento é contado duas vezes. Divide-se por 2: {a}.",
+  qTronco:"Cortar um tronco em {n} pedaços leva {m} minutos. Com cortes iguais, quantos minutos leva cortá-lo em {n2} pedaços?",
+  eTronco:"Para {n} pedaços são feitos {n1} cortes: cada corte leva {c} min. Para {n2} pedaços são feitos {n21} cortes: {n21} × {c} = {a} min.",
+  oDia:"Dia {x}", oMin:"{x} min", oPuesto:"Posição {x}", oDias:"{x} dias",
   piensa:"💡 Como pensar", correcta:"Correta", tuya:"Sua resposta",
   expMem:"Dica para amanhã: invente uma mini história que una os objetos em ordem (o 🍩 cai sobre o 🎁…). Para muita gente, uma história funciona melhor que uma lista.",
-  expLog:"Método: olhe primeiro a diferença entre números seguidos. Se não for sempre igual, veja se multiplica, se alterna ou se soma os dois anteriores.",
+  expLog:"Método: olhe primeiro a diferença entre números seguidos. Se não for sempre igual, veja se multiplica, se alterna ou se soma os anteriores.",
   expAte:"Ler é quase automático, por isso a palavra empurra a resposta errada. Escolher a cor da tinta obriga a frear esse impulso: é concentração em ação (efeito Stroop).",
   expRef:"Estas perguntas são feitas para a primeira ideia falhar. O hábito treinado é parar, conferir e depois responder.",
+  subeNivel:"Fácil demais? Amanhã experimente o nível {n}.",
   aciertos:"Acertos", wa:"Desafiar um amigo no WhatsApp", copy:"Copiar resultado", copied:"✅ Copiado", copyPrompt:"Copie seu resultado:",
   emailH:"📩 Quer um aviso amanhã?", emailP:"Toda manhã você recebe seu desafio. 1 clique e você joga. Cancele quando quiser.",
   ph:"voce@email.com", emailBtn:"Me avise", emailBad:"Confira seu e-mail, parece incompleto.", saving:"Salvando…",
@@ -262,30 +302,47 @@ const TXT = {
   m100:"Mente afiada! 🧠⚡", m60:"Muito bem! Amanhã você gabarita.", mLow:"Boa tentativa. Amanhã tem revanche.",
   time:"Tempo", streak:"Sequência", day:"dia", days:"dias", prot:"🛡️ Você usou seu protetor de sequência da semana",
   seven:"🎉 7 dias seguidos!", hook:"Consegue me vencer?", in:"em", dec:"," },
- en:{ doc:"NovaMente · Daily challenge", reto:"Challenge", start:"▶ Start",
+ en:{ doc:"NovaMente · Daily challenge", reto:"Challenge", start:"▶ Start", nivelW:"Level",
   tipos:{memoria:"Memory", logica:"Logic", atencion:"Focus", reflexion:"Reflection"},
+  niveles:{basico:"Basic", intermedio:"Intermediate", experto:"Expert"},
+  nivDesc:{basico:"Warm up", intermedio:"Think", experto:"Push yourself"},
+  elige:"Choose your level:",
   h1:{memoria:"How many can you remember?", logica:"What number comes next?", atencion:"What color is the ink?", reflexion:"Do you think fast or think well?"},
-  intro:{memoria:"You'll see <b>{n}</b> objects for a few seconds.<br>Then tap them from memory.",
-         logica:"<b>5 sequences</b>. Find the pattern and pick the number that comes next.",
-         atencion:"You'll see <b>10 color words</b>. Tap the <b>ink color</b>, not what the word says.",
-         reflexion:"<b>3 trick questions</b>. Your first idea will often be wrong: pause, check, then answer."},
+  intro:{memoria:"You'll see <b>{q}</b> objects for a few seconds.<br>Then tap them from memory.",
+         logica:"<b>{q} sequences</b>. Find the pattern and pick the number that comes next.",
+         atencion:"You'll see <b>{q} color words</b>. Tap the <b>ink color</b>, not what the word says.",
+         reflexion:"<b>{q} trick questions</b>. Your first idea will often be wrong: pause, check, then answer."},
   sub:"1 to 3 minutes · No sign-up · A different type of challenge every day",
   memo:"Memorize", pick:"Which ones did you see?", hint:"Tap the ones you remember", preg:"Question {i} of {n}",
-  colores:["RED","BLUE","GREEN","YELLOW"], colorBtn:["Red","Blue","Green","Yellow"],
+  colores:["RED","BLUE","GREEN","YELLOW","PURPLE"], colorBtn:["Red","Blue","Green","Yellow","Purple"],
   lPreg:"What number comes next?",
-  rArit:"Add {d} each time.", rGeo:"Multiply by {r} each time.", rAlt:"Alternate: add {x}, subtract {y}.", rFib:"Each number is the sum of the previous two.", rCuad:"They are squares: {n}×{n}, {n1}×{n1}…",
+  rArit:"Add {d} each time.", rResta:"Subtract {d} each time.", rGeo:"Multiply by {r} each time.", rAlt:"Alternate: add {x}, subtract {y}.", rFib:"Each number is the sum of the previous two.", rCuad:"They are squares: {n}×{n}, {n1}×{n1}…",
+  rCrec:"The gap grows by {k} each time: +{d1}, +{d2}, +{d3}…", rDoble:"Multiply by 2 and add {c}.", rTrib:"Each number is the sum of the previous three.", rAltMul:"Alternate: multiply by 2, subtract {y}.", rPrimos:"They are prime numbers: divisible only by 1 and themselves.",
+  qOvejas:"A farmer has {n} sheep. All but {k} run away. How many sheep are left?",
+  eOvejas:"“All but {k}” means {k} did not run away. The trap is to subtract: {n} − {k} = {nk}.",
+  qCarrera:"In a race you overtake the person in position {p}. What position are you in now?",
+  eCarrera:"You take their place: you're in position {p}. The quick answer ({p1}) forgets you only passed that one person.",
+  qFila:"There are {n} people in a line. Ana is in position {k} counting from the front. How many people are behind Ana?",
+  eFila:"There are {k1} people in front of Ana, Ana takes 1 spot, and behind her are {n} − {k} = {nk}.",
   qBat:"A notebook and a pencil cost ${t} in total. The notebook costs ${d} more than the pencil. How much does the pencil cost?",
   eBat:"The quick answer is ${p2}, but then the notebook would cost ${dp2} and the total would be ${d4}. If the pencil costs ${p}, the notebook costs ${dp} and together they add up to ${t}.",
   qLily:"A patch of algae doubles in size every day. It covers the whole lake in {n} days. On which day did it cover half the lake?",
   eLily:"If it doubles every day, the day before it covers everything it covered exactly half: day {n1}. Half the time ({n2}) is the trap.",
   qMaq:"{k} machines make {k} parts in {k} minutes. How many minutes do {m} machines take to make {m} parts?",
   eMaq:"Each machine makes 1 part in {k} minutes. {m} machines working at once make {m} parts in the same {k} minutes.",
-  oDia:"Day {x}", oMin:"{x} min",
+  qCaracol:"A snail is at the bottom of a {h}-meter well. Each day it climbs {u} meters and each night it slips back {d}. In how many days does it get out?",
+  eCaracol:"Each full day it gains {ud} m, but on the last day it climbs {u} m and gets out without slipping. It first needs to reach {hu} m: that takes {a1} days, plus the last one = {a}.",
+  qSaludos:"At a meeting there are {n} people and each one greets every other person once. How many greetings are there in total?",
+  eSaludos:"Each person greets {n1} others: {n} × {n1} = {dob}, but that counts every greeting twice. Divide by 2: {a}.",
+  qTronco:"Cutting a log into {n} pieces takes {m} minutes. With equal cuts, how many minutes does it take to cut it into {n2} pieces?",
+  eTronco:"{n} pieces need {n1} cuts, so each cut takes {c} min. {n2} pieces need {n21} cuts: {n21} × {c} = {a} min.",
+  oDia:"Day {x}", oMin:"{x} min", oPuesto:"Position {x}", oDias:"{x} days",
   piensa:"💡 How to think it through", correcta:"Correct", tuya:"Your answer",
   expMem:"Tip for tomorrow: make up a tiny story that links the objects in order (the 🍩 falls on the 🎁…). Many people find a story easier than a list.",
-  expLog:"Method: first look at the difference between neighbors. If it isn't constant, check whether it multiplies, alternates, or adds the previous two.",
+  expLog:"Method: first look at the difference between neighbors. If it isn't constant, check whether it multiplies, alternates, or adds the previous numbers.",
   expAte:"Reading is almost automatic, so the word pushes you toward the wrong answer. Picking the ink color forces you to hold back that impulse: that's focus in action (the Stroop effect).",
   expRef:"These questions are designed so your first idea fails. The habit you train is to pause, check, and then answer.",
+  subeNivel:"Too easy? Try the {n} level tomorrow.",
   aciertos:"Correct", wa:"Challenge a friend", copy:"Copy result", copied:"✅ Copied", copyPrompt:"Copy your result:",
   emailH:"📩 Want a reminder tomorrow?", emailP:"Get your challenge every morning. 1 click and you play. Unsubscribe anytime.",
   ph:"you@email.com", emailBtn:"Remind me", emailBad:"Check your email, it looks incomplete.", saving:"Saving…",
@@ -323,22 +380,27 @@ const AHORA = new Date();
 const HOY = fechaISO(AHORA);
 const NUM = Math.max(1, diasEntre(CONFIG.LANZAMIENTO, HOY) + 1);
 
-/* Reto del día: igual para todos, generado solo. Rota: Memoria → Lógica → Atención → Reflexión */
+/* =========================================================
+   RETO DEL DÍA: igual para todos, generado solo.
+   Tipo rota cada día: Memoria → Lógica → Atención → Reflexión
+   Nivel lo elige la persona: Básico · Intermedio · Experto
+   ========================================================= */
 function rng(seed){ return function(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function barajar(arr, r){ const a = arr.slice(); for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 const TIPOS = ["memoria","logica","atencion","reflexion"];
 const TIPO = TIPOS[(NUM - 1) % 4];
 const ICONO = { memoria:"🧠", logica:"🔢", atencion:"🎯", reflexion:"💡" };
-const R = rng(Number(HOY.replace(/-/g, "")));
+const NIVELES = ["basico","intermedio","experto"];
+const ICONIV = { basico:"🟢", intermedio:"🟡", experto:"🔴" };
+const CFG = {
+  basico:     { mem:{ n:4, ops:8,  ms:6000 }, log:["aritS","resta","geo2","aritS"],           ate:{ q:8,  cong:[1,3,5,7], col:4 }, ref:["ovejas","carrera","fila"] },
+  intermedio: { mem:{ n:6, ops:12, ms:6300 }, log:["arit","geo","alt","fib","cuad"],          ate:{ q:10, cong:[2,6],     col:4 }, ref:["bat","lily","maq"] },
+  experto:    { mem:{ n:8, ops:16, ms:6000 }, log:["crec","doble","trib","altmul","primos"],  ate:{ q:14, cong:[],        col:5 }, ref:["caracol","saludos","tronco"] }
+};
+let NIVEL = S.get("nivel", "basico"); if(!CFG[NIVEL]) NIVEL = "basico";
+let R = Math.random;                              // se reemplaza al empezar: semilla = fecha + nivel
 const entre = (a, b) => a + Math.floor(R() * (b - a + 1));
-
-/* --- Memoria (igual que antes) --- */
-const EMOJIS = ["🍎","🚗","🐶","🎸","⚽","🌙","🔑","🎈","🌵","🐙","🍕","🚀","🦋","🎲","📚","🧲","🍉","🐢","⏰","🎁","🌻","🦊","🍩","⛵","🍄","🎩","🐝","🍋","🧩","🦉"];
-const N = [5,4,5,5,6,6,7][AHORA.getDay()];
-const MEZCLA = barajar(EMOJIS, R);
-const OBJETIVO = MEZCLA.slice(0, N);
-const OPCIONES = barajar(MEZCLA.slice(0, 12), R);
-const MS_MEMORIA = 1500 + N * 800;
+function cuantas(){ const c = CFG[NIVEL]; return TIPO === "memoria" ? c.mem.n : TIPO === "logica" ? c.log.length : TIPO === "atencion" ? c.ate.q : c.ref.length; }
 
 /* --- Utilidad: 4 opciones distintas con la correcta --- */
 function opciones(correcta, candidatas, paso){
@@ -349,50 +411,72 @@ function opciones(correcta, candidatas, paso){
   return barajar(set, R);
 }
 
-/* --- Lógica: 5 secuencias --- */
+/* --- Memoria --- */
+const EMOJIS = ["🍎","🚗","🐶","🎸","⚽","🌙","🔑","🎈","🌵","🐙","🍕","🚀","🦋","🎲","📚","🧲","🍉","🐢","⏰","🎁","🌻","🦊","🍩","⛵","🍄","🎩","🐝","🍋","🧩","🦉"];
+let OBJETIVO = [], OPCIONES = [];
+
+/* --- Lógica --- */
+const PRIMOS = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113];
 function genLogica(){
-  return barajar(["arit","geo","alt","fib","cuad"], R).map(tipo => {
+  return barajar(CFG[NIVEL].log, R).map(tipo => {
     let serie, resp, regla, cand, paso = 1;
+    if(tipo === "aritS"){ const a = entre(1,10), d = entre(2,5); serie = [a, a+d, a+2*d, a+3*d]; resp = a+4*d; regla = fmt(T.rArit, {d}); cand = [resp+d, resp-1, resp+1]; paso = d; }
+    if(tipo === "resta"){ const a = entre(30,60), d = entre(2,6); serie = [a, a-d, a-2*d, a-3*d]; resp = a-4*d; regla = fmt(T.rResta, {d}); cand = [resp-d, resp+1, a-3*d+d]; paso = d; }
+    if(tipo === "geo2"){ const a = entre(1,3); serie = [a, a*2, a*4, a*8]; resp = a*16; regla = fmt(T.rGeo, {r: 2}); cand = [a*8 + (a*8 - a*4), resp+2, resp-a]; paso = 2; }
     if(tipo === "arit"){ const a = entre(2,20), d = entre(2,9); serie = [a, a+d, a+2*d, a+3*d]; resp = a+4*d; regla = fmt(T.rArit, {d}); cand = [resp+d, resp-1, a+3*d+d+1]; paso = d; }
     if(tipo === "geo"){ const a = entre(1,4), r = entre(2,3); serie = [a, a*r, a*r*r, a*r*r*r]; resp = a*r**4; regla = fmt(T.rGeo, {r}); cand = [serie[3] + (serie[3]-serie[2]), resp*r, resp-a]; paso = r; }
     if(tipo === "alt"){ const a = entre(10,30), x = entre(3,8), y = entre(1, x-1); serie = [a, a+x, a+x-y, a+2*x-y, a+2*x-2*y]; resp = a+3*x-2*y; regla = fmt(T.rAlt, {x, y}); cand = [resp-x-y, a+2*x-3*y, resp+y]; }
     if(tipo === "fib"){ const a = entre(1,5), b = a + entre(1,4); serie = [a, b, a+b, a+2*b, 2*a+3*b]; resp = 3*a+5*b; regla = T.rFib; cand = [resp+1, 2*a+3*b+b, resp-a]; }
     if(tipo === "cuad"){ const n = entre(2,7); serie = [n*n, (n+1)**2, (n+2)**2, (n+3)**2]; resp = (n+4)**2; regla = fmt(T.rCuad, {n, n1: n+1}); cand = [(n+3)**2 + ((n+3)**2 - (n+2)**2), resp+2, resp-1]; }
+    if(tipo === "crec"){ const a = entre(1,10), d = entre(1,4), k = entre(2,3); serie = [a]; for(let i = 0; i < 4; i++) serie.push(serie[i] + d + i*k);
+      resp = serie[4] + d + 4*k; regla = fmt(T.rCrec, {k, d1: d, d2: d+k, d3: d+2*k}); cand = [serie[4] + d + 3*k, resp+k, resp-1]; }
+    if(tipo === "doble"){ const a = entre(1,5), c = entre(1,3); serie = [a]; for(let i = 0; i < 4; i++) serie.push(serie[i]*2 + c);
+      resp = serie[4]*2 + c; regla = fmt(T.rDoble, {c}); cand = [serie[4]*2, serie[4] + (serie[4]-serie[3]), resp+c]; }
+    if(tipo === "trib"){ const a = entre(1,4), b = entre(1,4), c = entre(1,4); serie = [a, b, c, a+b+c]; serie.push(b + c + serie[3]);
+      resp = c + serie[3] + serie[4]; regla = T.rTrib; cand = [serie[3] + serie[4], resp+1, resp-c]; }
+    if(tipo === "altmul"){ const a = entre(4,9), y = entre(1, a-1); serie = [a, 2*a, 2*a-y, 4*a-2*y, 4*a-3*y]; resp = 8*a-6*y; regla = fmt(T.rAltMul, {y}); cand = [4*a-4*y, resp-y, resp+2]; }
+    if(tipo === "primos"){ const i = entre(2,14); serie = PRIMOS.slice(i, i+5); resp = PRIMOS[i+5]; regla = T.rPrimos; cand = [serie[4] + (serie[4]-serie[3]), resp+2, resp-1]; }
     const ops = opciones(resp, cand, paso);
     return { html: '<div class="muted">'+T.lPreg+'</div><div class="serie">'+serie.join(", ")+", ?</div>",
              corto: serie.join(", ")+", ?", ops: ops.map(String), correcta: ops.indexOf(resp), nota: regla };
   });
 }
 
-/* --- Atención: 10 palabras (efecto Stroop) --- */
-const TINTAS = ["#E5484D", "#2F6BFF", "#1E9E5A", "#D9A400"];
+/* --- Atención (efecto Stroop) --- */
+const TINTAS = ["#E5484D", "#2F6BFF", "#1E9E5A", "#D9A400", "#8B3FE0"];
 function genAtencion(){
-  const out = [];
-  for(let i = 0; i < 10; i++){
-    const palabra = entre(0,3);
-    const tinta = (i === 2 || i === 6) ? palabra : (palabra + entre(1,3)) % 4;   // 2 coinciden, 8 engañan
+  const c = CFG[NIVEL].ate, out = [];
+  for(let i = 0; i < c.q; i++){
+    const palabra = entre(0, c.col - 1);
+    const tinta = c.cong.includes(i) ? palabra : (palabra + entre(1, c.col - 1)) % c.col;
     out.push({ html: '<div class="stroop" style="color:'+TINTAS[tinta]+'">'+T.colores[palabra]+'</div>',
-               ops: T.colorBtn.slice(), correcta: tinta, sinRevelar: true });
+               ops: T.colorBtn.slice(0, c.col), correcta: tinta, sinRevelar: true });
   }
   return out;
 }
 
-/* --- Reflexión: 3 preguntas trampa con números distintos cada día --- */
-function genReflexion(){
-  const plantillas = {
-    bat(){ const d = [100,200,300,500][entre(0,3)], p = [5,10,15,20,25][entre(0,4)], t = d + 2*p;
-      const ops = opciones(p, [2*p, 3*p, p+5], 5);
-      return { html: fmt(T.qBat, {t, d}), ops: ops.map(x => "$"+x), correcta: ops.indexOf(p),
-               nota: fmt(T.eBat, {p, p2: 2*p, dp2: d+2*p, d4: d+4*p, dp: d+p, t}) }; },
-    lily(){ const n = 2 * entre(10,30), ops = opciones(n-1, [n/2, n-2, Math.round(n/4)], 1);
-      return { html: fmt(T.qLily, {n}), ops: ops.map(x => fmt(T.oDia, {x})), correcta: ops.indexOf(n-1),
-               nota: fmt(T.eLily, {n1: n-1, n2: n/2}) }; },
-    maq(){ const k = entre(3,9), m = [50,80,100,120,150,200][entre(0,5)], ops = opciones(k, [m, 2*k, Math.round(m/k)], 1);
-      return { html: fmt(T.qMaq, {k, m}), ops: ops.map(x => fmt(T.oMin, {x})), correcta: ops.indexOf(k),
-               nota: fmt(T.eMaq, {k, m}) }; }
-  };
-  return barajar(["bat","lily","maq"], R).map(k => plantillas[k]());
-}
+/* --- Reflexión: preguntas trampa con números distintos cada día --- */
+const PREG = {
+  ovejas(){ const n = entre(12,30), k = entre(3,9), ops = opciones(k, [n-k, n, k+1], 1);
+    return { html: fmt(T.qOvejas, {n, k}), ops: ops.map(String), correcta: ops.indexOf(k), nota: fmt(T.eOvejas, {n, k, nk: n-k}) }; },
+  carrera(){ const p = entre(2,9), ops = opciones(p, [p-1, p+1, 1], 1);
+    return { html: fmt(T.qCarrera, {p}), ops: ops.map(x => fmt(T.oPuesto, {x})), correcta: ops.indexOf(p), nota: fmt(T.eCarrera, {p, p1: p-1}) }; },
+  fila(){ const n = entre(10,25), k = entre(3, n-3), a = n-k, ops = opciones(a, [a+1, a-1, k], 1);
+    return { html: fmt(T.qFila, {n, k}), ops: ops.map(String), correcta: ops.indexOf(a), nota: fmt(T.eFila, {n, k, k1: k-1, nk: a}) }; },
+  bat(){ const d = [100,200,300,500][entre(0,3)], p = [5,10,15,20,25][entre(0,4)], t = d + 2*p, ops = opciones(p, [2*p, 3*p, p+5], 5);
+    return { html: fmt(T.qBat, {t, d}), ops: ops.map(x => "$"+x), correcta: ops.indexOf(p), nota: fmt(T.eBat, {p, p2: 2*p, dp2: d+2*p, d4: d+4*p, dp: d+p, t}) }; },
+  lily(){ const n = 2 * entre(10,30), ops = opciones(n-1, [n/2, n-2, Math.round(n/4)], 1);
+    return { html: fmt(T.qLily, {n}), ops: ops.map(x => fmt(T.oDia, {x})), correcta: ops.indexOf(n-1), nota: fmt(T.eLily, {n1: n-1, n2: n/2}) }; },
+  maq(){ const k = entre(3,9), m = [50,80,100,120,150,200][entre(0,5)], ops = opciones(k, [m, 2*k, Math.round(m/k)], 1);
+    return { html: fmt(T.qMaq, {k, m}), ops: ops.map(x => fmt(T.oMin, {x})), correcta: ops.indexOf(k), nota: fmt(T.eMaq, {k, m}) }; },
+  caracol(){ const u = entre(3,5), d = entre(1, u-1), h = entre(12,30), ud = u-d, a = Math.ceil((h-u)/ud) + 1, ops = opciones(a, [Math.ceil(h/ud), a+1, a-1], 1);
+    return { html: fmt(T.qCaracol, {h, u, d}), ops: ops.map(x => fmt(T.oDias, {x})), correcta: ops.indexOf(a), nota: fmt(T.eCaracol, {ud, u, hu: h-u, a1: a-1, a}) }; },
+  saludos(){ const n = entre(5,12), a = n*(n-1)/2, ops = opciones(a, [n*(n-1), n*n, a+n], 1);
+    return { html: fmt(T.qSaludos, {n}), ops: ops.map(String), correcta: ops.indexOf(a), nota: fmt(T.eSaludos, {n, n1: n-1, dob: n*(n-1), a}) }; },
+  tronco(){ const n = entre(3,5), c = entre(3,8), m = (n-1)*c, n2 = n + entre(2,5), a = (n2-1)*c, ops = opciones(a, [Math.round(m*n2/n), n2*c, a+c], c);
+    return { html: fmt(T.qTronco, {n, m, n2}), ops: ops.map(x => fmt(T.oMin, {x})), correcta: ops.indexOf(a), nota: fmt(T.eTronco, {n, n1: n-1, c, n2, n21: n2-1, a}) }; }
+};
+function genReflexion(){ return barajar(CFG[NIVEL].ref, R).map(k => PREG[k]()); }
 
 /* Identidad anónima y referido */
 function nuevoId(){ try{ return crypto.randomUUID().replace(/-/g,"").slice(0,16); }catch(e){ return Math.random().toString(36).slice(2,18); } }
@@ -412,11 +496,12 @@ try{
 async function guardar(tabla, fila){
   if(!db) return false;
   try{
-    let { error } = await db.from(tabla).insert(fila);
-    if(error && fila.idioma && /idioma/i.test(error.message || "")){
-      const copia = Object.assign({}, fila); delete copia.idioma;
-      ({ error } = await db.from(tabla).insert(copia));
+    let datos = Object.assign({}, fila);
+    let { error } = await db.from(tabla).insert(datos);
+    for(const col of ["nivel", "idioma"]){             // si aún no corriste el SQL de esa columna, guarda sin ella
+      if(error && col in datos && new RegExp(col, "i").test(error.message || "")){ delete datos[col]; ({ error } = await db.from(tabla).insert(datos)); }
     }
+    if(error && ("nivel" in datos || "idioma" in datos) && /column/i.test(error.message || "")){ delete datos.nivel; delete datos.idioma; ({ error } = await db.from(tabla).insert(datos)); }
     if(!error || error.code === "23505") return true;
     console.warn("NovaMente:", error);
     return false;
@@ -451,30 +536,36 @@ const VISTAS = ["v-inicio","v-memoria","v-elegir","v-pregunta","v-resultado"];
 function mostrar(id){ VISTAS.forEach(v => $(v).hidden = (v !== id)); window.scrollTo(0,0); }
 function pintarRacha(n){ $("racha").textContent = "🔥 " + n; }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const etiquetaNivel = n => ICONIV[n] + " " + T.nivelW + " " + T.niveles[n];
 
 /* ===== Cierre común de cualquier reto ===== */
 let t0 = 0;
 function cerrar(aciertos, total, revisa, exp){
   const seg = Math.round((performance.now() - t0) / 100) / 10;
   const racha = sumarRacha();
-  const res = { num: NUM, fecha: HOY, tipo: TIPO, aciertos, total, seg, racha, protector: usoProtector, revisa, exp };
+  const res = { num: NUM, fecha: HOY, tipo: TIPO, nivel: NIVEL, aciertos, total, seg, racha, protector: usoProtector, revisa, exp };
   S.set("res_" + HOY, res);
-  guardar("eventos", { anon_id: ID, tipo: "jugada", fecha: HOY, reto: NUM, aciertos, total, segundos: seg, ref: REF, idioma: LANG });
+  guardar("eventos", { anon_id: ID, tipo: "jugada", fecha: HOY, reto: NUM, aciertos, total, segundos: seg, ref: REF, idioma: LANG, nivel: NIVEL });
   pintarResultado(res);
 }
 
 /* ===== Memoria ===== */
 let elegidos = [], cerrado = false;
 function empezarMemoria(){
+  const c = CFG[NIVEL].mem;
+  const mezcla = barajar(EMOJIS, R);
+  OBJETIVO = mezcla.slice(0, c.n);
+  OPCIONES = barajar(mezcla.slice(0, c.ops), R);
   mostrar("v-memoria");
   $("memo").innerHTML = OBJETIVO.map(e => "<span>"+e+"</span>").join("");
   const b = $("barra"); b.style.transition = "none"; b.style.width = "100%";
-  requestAnimationFrame(() => requestAnimationFrame(() => { b.style.transition = "width " + MS_MEMORIA + "ms linear"; b.style.width = "0%"; }));
-  setTimeout(elegirMemoria, MS_MEMORIA);
+  requestAnimationFrame(() => requestAnimationFrame(() => { b.style.transition = "width " + c.ms + "ms linear"; b.style.width = "0%"; }));
+  setTimeout(elegirMemoria, c.ms);
 }
 function elegirMemoria(){
+  const n = OBJETIVO.length;
   mostrar("v-elegir");
-  $("cont").textContent = "0/" + N;
+  $("cont").textContent = "0/" + n;
   const g = $("grid"); g.innerHTML = "";
   OPCIONES.forEach(e => {
     const bt = document.createElement("button");
@@ -486,15 +577,16 @@ function elegirMemoria(){
 }
 function tocarMemoria(bt, e){
   if(cerrado) return;
+  const n = OBJETIVO.length;
   if(bt.classList.contains("sel")){ bt.classList.remove("sel"); elegidos = elegidos.filter(x => x !== e); }
   else { bt.classList.add("sel"); elegidos.push(e); }
-  $("cont").textContent = elegidos.length + "/" + N;
-  if(elegidos.length === N){
+  $("cont").textContent = elegidos.length + "/" + n;
+  if(elegidos.length === n){
     cerrado = true;
     setTimeout(() => {
       const aciertos = elegidos.filter(e => OBJETIVO.includes(e)).length;
       const revisa = '<div class="revisa">' + OBJETIVO.map(e => '<span class="'+(elegidos.includes(e) ? "ok" : "no")+'">'+e+'</span>').join("") + '</div>';
-      cerrar(aciertos, N, revisa, T.expMem);
+      cerrar(aciertos, n, revisa, T.expMem);
     }, 300);
   }
 }
@@ -506,7 +598,7 @@ function empezarPreguntas(lista, exp){
   t0 = performance.now();
   const pintar = () => {
     const q = lista[i];
-    $("pTag").textContent = ICONO[TIPO] + " " + T.tipos[TIPO] + " · " + fmt(T.preg, {i: i+1, n: lista.length});
+    $("pTag").textContent = ICONO[TIPO] + " " + T.tipos[TIPO] + " · " + ICONIV[NIVEL] + " " + T.niveles[NIVEL] + " · " + fmt(T.preg, {i: i+1, n: lista.length});
     $("pProg").style.width = (i / lista.length * 100) + "%";
     $("pTexto").innerHTML = q.html;
     const box = $("pOpc"); box.innerHTML = "";
@@ -540,6 +632,7 @@ function empezarPreguntas(lista, exp){
 }
 
 function empezar(){
+  R = rng(Number(HOY.replace(/-/g, "")) + NIVELES.indexOf(NIVEL) * 7919);   // mismo reto para todos los del mismo nivel
   if(TIPO === "memoria") return empezarMemoria();
   if(TIPO === "logica") return empezarPreguntas(genLogica(), T.expLog);
   if(TIPO === "atencion") return empezarPreguntas(genAtencion(), T.expAte);
@@ -552,21 +645,21 @@ function diasTxt(n){ return n + " " + (n === 1 ? T.day : T.days); }
 function textoCompartir(res){
   const url = location.origin + location.pathname + "?r=" + ID + "&lang=" + LANG;
   const tipo = res.tipo || "memoria";
-  return "🧠 NovaMente #" + res.num + " · " + ICONO[tipo] + " " + T.tipos[tipo] + "\n" +
+  return "🧠 NovaMente #" + res.num + " · " + ICONO[tipo] + " " + T.tipos[tipo] + (res.nivel ? " · " + etiquetaNivel(res.nivel) : "") + "\n" +
          "✅ " + res.aciertos + "/" + res.total + " " + T.in + " " + seg2txt(res.seg) + " s\n" +
          "🟩".repeat(res.aciertos) + "🟥".repeat(res.total - res.aciertos) + "\n" +
          "🔥 " + T.streak + ": " + diasTxt(res.racha) + "\n" +
          T.hook + " 👉 " + url;
 }
 function pintarResultado(res){
-  if(!res.tipo){   // resultados guardados con la versión anterior
+  if(!res.tipo){   // resultados guardados con la primera versión
     res.tipo = "memoria";
     res.revisa = '<div class="revisa">' + (res.objetivo || []).map(e => '<span class="'+((res.elegidos || []).includes(e) ? "ok" : "no")+'">'+e+'</span>').join("") + '</div>';
     res.exp = T.expMem;
   }
   mostrar("v-resultado");
   pintarRacha(res.racha);
-  $("rNum").textContent = T.reto + " #" + res.num + " · " + ICONO[res.tipo] + " " + T.tipos[res.tipo];
+  $("rNum").textContent = T.reto + " #" + res.num + " · " + ICONO[res.tipo] + " " + T.tipos[res.tipo] + (res.nivel ? " · " + ICONIV[res.nivel] + " " + T.niveles[res.nivel] : "");
   $("rScore").textContent = res.aciertos + "/" + res.total;
   const pct = res.aciertos / res.total;
   $("rMsg").textContent = pct === 1 ? T.m100 : pct >= 0.6 ? T.m60 : T.mLow;
@@ -577,7 +670,10 @@ function pintarResultado(res){
   $("rInfo").textContent = info;
   $("tPiensa").textContent = T.piensa;
   $("rRevisa").innerHTML = res.revisa || "";
-  $("rExp").textContent = res.exp || "";
+  let exp = res.exp || "";
+  const sig = NIVELES[NIVELES.indexOf(res.nivel) + 1];
+  if(pct === 1 && sig) exp += " " + fmt(T.subeNivel, {n: T.niveles[sig]});
+  $("rExp").textContent = exp;
   const txt = textoCompartir(res);
   $("bWa").href = "https://wa.me/?text=" + encodeURIComponent(txt);
   $("bWa").onclick = (ev) => {
@@ -628,13 +724,20 @@ function reloj(){
   tick(); relojTimer = setInterval(tick, 1000);
 }
 
+/* Pantalla de inicio: tipo del día + selector de nivel */
+function pintarInicio(){
+  $("numReto").textContent = T.reto + " #" + NUM + " · " + ICONO[TIPO] + " " + T.tipos[TIPO] + " · " + ICONIV[NIVEL] + " " + T.niveles[NIVEL];
+  $("tIntro").innerHTML = fmt(T.intro[TIPO], {q: cuantas()});
+  $("niveles").innerHTML = NIVELES.map(n => '<button type="button" class="nivel'+(n === NIVEL ? " on" : "")+'" data-n="'+n+'">'+ICONIV[n]+" "+T.niveles[n]+"<small>"+T.nivDesc[n]+"</small></button>").join("");
+  document.querySelectorAll("#niveles .nivel").forEach(b => b.onclick = () => { NIVEL = b.dataset.n; S.set("nivel", NIVEL); pintarInicio(); });
+}
+
 /* Arranque */
 document.documentElement.lang = LANG;
 document.title = T.doc;
-$("numReto").textContent = T.reto + " #" + NUM + " · " + ICONO[TIPO] + " " + T.tipos[TIPO];
 $("chips").innerHTML = TIPOS.map(t => '<span class="chip'+(t === TIPO ? " on" : "")+'">'+ICONO[t]+" "+T.tipos[t]+'</span>').join("");
 $("tH1").textContent = T.h1[TIPO];
-$("tIntro").innerHTML = fmt(T.intro[TIPO], {n: N});
+$("tElige").textContent = T.elige;
 $("tSub").textContent = T.sub;
 $("bEmpezar").textContent = T.start;
 $("tMemo").textContent = T.memo;
@@ -656,6 +759,7 @@ document.querySelectorAll("#langs a").forEach(a => {
   if(a.dataset.l === LANG) a.classList.add("on");
   a.onclick = () => { try{ localStorage.setItem("nm_lang", JSON.stringify(a.dataset.l)); }catch(e){} const u = new URL(location.href); u.searchParams.delete("lang"); location.href = u.toString(); };
 });
+pintarInicio();
 pintarRacha(rachaVigente());
 $("bEmpezar").onclick = empezar;
 $("bEmail").onclick = suscribir;
